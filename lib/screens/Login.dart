@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/Cadastro.dart';
+import './cadastro.dart';
+import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  final authService = AuthService();
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
   bool senhaVisivel = false;
@@ -66,8 +68,15 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 24),
               SizedBox(
                 width: double.infinity ,//serve cm um margin que ocupa toda largura,
-                child: ElevatedButton(onPressed: (){
-                  //aqui chama o apiservice para autentucar
+                child: ElevatedButton(onPressed: () async {
+                  final mensagem = await authService.login(emailController.text, senhaController.text);
+                  
+                  setState(() {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(mensagem)),
+                    );
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,

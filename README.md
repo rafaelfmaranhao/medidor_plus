@@ -1,4 +1,4 @@
-# frontend
+# medidor_plus
 
 A new Flutter project.
 
