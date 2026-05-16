@@ -2,10 +2,14 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class AuthService {
+class AutenticacaoService {
   final String baseUrl = 'http://10.0.2.2:5000';
 
-  Future<String> cadastrar(String nome, String email, String senha) async {
+  Future<Map<String, dynamic>> cadastrar(  // ← muda String para Map<String, dynamic>
+    String nome,
+    String email,
+    String senha,
+  ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/cadastro'),
       headers: {
@@ -20,8 +24,7 @@ class AuthService {
       encoding: Encoding.getByName('utf-8')
     );
 
-    final dados = jsonDecode(response.body);
-    return dados['message'];
+    return jsonDecode(response.body); // ← retorna o Map completo
   }
 
   Future<String> login(String email, String senha) async {
@@ -37,12 +40,12 @@ class AuthService {
       }),
       encoding: Encoding.getByName('utf-8')
     );
-    
+
     final dados = jsonDecode(response.body);
     return dados['message'];
   }
 
   Future logout() async {
-    
+
   }
 }
