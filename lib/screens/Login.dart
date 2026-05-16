@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medidor_plus/screens/Cadastro.dart';
-import 'package:medidor_plus/services/auth_service.dart';
+import './cadastro.dart';
+import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,12 +66,12 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity ,//serve cm um margin que ocupa toda largura,
                 child: ElevatedButton(onPressed: () async {
                   final mensagem = await authService.login(emailController.text, senhaController.text);
-                  print(mensagem);
                   
                   setState(() {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(mensagem)),
                     );
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
                   });
                 },
                 style: ElevatedButton.styleFrom(

@@ -2,7 +2,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class AutenticacaoService {
+class AuthService {
   final String baseUrl = 'http://10.0.2.2:5000';
 
   Future<Map<String, dynamic>> cadastrar(  // ← muda String para Map<String, dynamic>
