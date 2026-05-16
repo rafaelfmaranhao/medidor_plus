@@ -14,6 +14,10 @@ class _LoginPageState extends State<LoginPage> {
   final senhaController = TextEditingController();
   bool senhaVisivel = false;
 
+  Future<void>_logar() async{
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
