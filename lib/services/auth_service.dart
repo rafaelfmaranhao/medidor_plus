@@ -5,7 +5,11 @@ import 'dart:convert';
 class AutenticacaoService {
   final String baseUrl = 'http://10.0.2.2:5000';
 
-  Future<String> cadastrar(String nome, String email, String senha) async {
+  Future<Map<String, dynamic>> cadastrar(  // ← muda String para Map<String, dynamic>
+    String nome,
+    String email,
+    String senha,
+  ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/cadastro'),
       headers: {'Content-Type': 'application/json'},
@@ -16,7 +20,6 @@ class AutenticacaoService {
       }),
     );
 
-    final dados = jsonDecode(response.body);
-    return dados['mensagem'];
+    return jsonDecode(response.body); // ← retorna o Map completo
   }
 }
