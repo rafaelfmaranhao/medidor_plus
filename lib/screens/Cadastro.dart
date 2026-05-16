@@ -10,7 +10,7 @@ class CadastroPage extends StatefulWidget {
 
 class _CadastroPageState extends State<CadastroPage> {
 
-  final auth_service = AutenticacaoService();
+  final authService = AuthService();
   final _formKey = GlobalKey<FormState>(); 
   final nameController = TextEditingController();
   final emailCadastroController = TextEditingController();
@@ -45,6 +45,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
                 validator: (value){
                   if(value == null || value.isEmpty) return 'Insira o seu nome';
+                  return null;
                 },
               ),
               SizedBox(height: 8),
@@ -108,16 +109,18 @@ class _CadastroPageState extends State<CadastroPage> {
                 child: ElevatedButton(onPressed: () async {
                   if (_formKey.currentState!.validate()) {
           // 2. chama a API
-                  final mensagem = await auth_service.cadastrar(
+                  final mensagem = await authService.cadastrar(
                     nameController.text,
                     emailCadastroController.text,
                     confirmSenhaController.text,
                   );
 
                   // 3. exibe o retorno da API na tela
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(mensagem)),
-                  );
+                  setState(() {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(mensagem)),
+                    );
+                  });
                 }
                 }, child: Text('Cadastrar')),
               )
