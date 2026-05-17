@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidor_plus/screens/dashboard.dart';
 import './cadastro.dart';
 import '../services/auth_service.dart';
 
@@ -16,8 +17,21 @@ class _LoginPageState extends State<LoginPage> {
   final senhaController = TextEditingController();
   bool senhaVisivel = false;
 
-  Future<void>_logar() async{
-    
+  Future<void> _login() async {
+    final response = await authService.login(emailController.text, senhaController.text);
+
+    setState(() {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(response['message'])),
+      );
+      if (response['success'] == true) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+
+        for (final ctrl in [emailController, senhaController]) {
+          ctrl.clear();
+        }
+      }
+    });
   }
 
   @override
@@ -69,14 +83,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 width: double.infinity ,//serve cm um margin que ocupa toda largura,
                 child: ElevatedButton(onPressed: () async {
-                  final mensagem = await authService.login(emailController.text, senhaController.text);
-                  
-                  setState(() {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(mensagem)),
-                    );
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
-                  });
+                  _login();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
