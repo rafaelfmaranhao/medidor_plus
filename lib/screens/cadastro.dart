@@ -9,9 +9,8 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-
   final authService = AuthService();
-  final _formKey = GlobalKey<FormState>(); 
+  final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailCadastroController = TextEditingController();
   final senhaCadastController = TextEditingController();
@@ -33,12 +32,16 @@ class _CadastroPageState extends State<CadastroPage> {
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(resposta['message'])));
+      ScaffoldMessenger.of(context,).showSnackBar(
+        SnackBar(content: Text(resposta['message'])
+      ));
 
       if (resposta['success'] == true) {
         Navigator.pop(context);
+
+        for (final ctrl in [nameController, emailCadastroController, senhaCadastController, confirmSenhaController]) {
+          ctrl.clear();
+        }
       }
     }
   }
@@ -66,8 +69,9 @@ class _CadastroPageState extends State<CadastroPage> {
                   labelText: 'Nome',
                   prefixIcon: Icon(Icons.person_2_outlined),
                 ),
-                validator: (value){
-                  if(value == null || value.isEmpty) return 'Insira o seu nome';
+                validator: (value) {
+                  if (value == null || value.isEmpty)
+                    return 'Insira o seu nome';
                   return null;
                 },
               ),
@@ -78,12 +82,13 @@ class _CadastroPageState extends State<CadastroPage> {
                   labelText: 'E-mail',
                   prefixIcon: Icon(Icons.email_outlined),
                 ),
-                validator: (value){
-                  if(value == null || value.isEmpty) return 'Por favor, digite seu um email';
-                  if(!value.contains('@') || !value.contains('.')) return 'E-mail ivalido';
+                validator: (value) {
+                  if (value == null || value.isEmpty)
+                    return 'Por favor, digite seu um email';
+                  if (!value.contains('@') || !value.contains('.'))
+                    return 'E-mail ivalido';
                   return null;
                 },
-              
               ),
 
               SizedBox(height: 8),
@@ -108,8 +113,10 @@ class _CadastroPageState extends State<CadastroPage> {
                   ),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) return 'Por favor, digite uma senha';
-                  if (value.length < 6) return 'A senha teve ter, no mínimo, 6 caractere';
+                  if (value == null || value.isEmpty)
+                    return 'Por favor, digite uma senha';
+                  if (value.length < 6)
+                    return 'A senha teve ter, no mínimo, 6 caractere';
                   return null;
                 },
               ),
@@ -136,11 +143,12 @@ class _CadastroPageState extends State<CadastroPage> {
                   ),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) return 'Por favor, confirme sua senha';
-                  if (value != senhaCadastController.text) return 'As senhas não coincidem';
+                  if (value == null || value.isEmpty)
+                    return 'Por favor, confirme sua senha';
+                  if (value != senhaCadastController.text)
+                    return 'As senhas não coincidem';
                   return null;
                 },
-                
               ),
               SizedBox(height: 24),
 
@@ -157,7 +165,7 @@ class _CadastroPageState extends State<CadastroPage> {
               ),
             ],
           ),
-        )
+        ),
       ),
     );
   }
