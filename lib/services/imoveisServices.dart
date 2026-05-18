@@ -14,6 +14,7 @@ class ImoveisService{
   Future<List<dynamic>> getImoveis(String token, {String pesquisa = ''})async {
     try {
       final response = await http.get(
+        
         Uri.parse('$baseUrl/imoveis?q=$pesquisa'),
         headers: _headers(token),
         
