@@ -1,6 +1,7 @@
 // services/auth_service.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl = 'http://10.0.2.2:5000';
@@ -21,10 +22,8 @@ class AuthService {
         encoding: Encoding.getByName('utf-8'),
       );
 
-      print(' Resposta: ${response.body}');
       return jsonDecode(response.body);
     } catch (e) {
-      print(' Erro: $e');
       return {'success': false, 'message': 'Erro de conexão: $e'};
     }
   }
@@ -40,8 +39,36 @@ class AuthService {
       encoding: Encoding.getByName('utf-8'),
     );
 
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      await salvarToken(data['token']);
+    }
+
     return jsonDecode(response.body);
   }
 
-  Future logout() async {}
+  Future<void> salvarToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('token', token);
+  }
+
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString('token');
+  }
+
+  Future logout() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('token');
+  }
+
+  Future<bool> isLogged() async {
+    final token = await getToken();
+
+    return token != null;
+  }
 }
