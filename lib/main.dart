@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/dashboard.dart';
 import 'screens/login.dart';
-import 'screens/imoveis.dart'; // Mantive o import da sua nova tela de imóveis
+import 'screens/imoveis.dart';
 import 'services/auth_service.dart';
 
 void main() async {
@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // Estrutura oficial mantida. Mude para ImoveisPage(...) apenas se quiser testar isolado.
       home: logado
           ? const Dashboard()
           : const LoginPage(),

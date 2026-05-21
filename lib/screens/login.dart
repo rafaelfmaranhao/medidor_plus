@@ -30,6 +30,8 @@ class _LoginPageState extends State<LoginPage> {
         for (final ctrl in [emailController, senhaController]) {
           ctrl.clear();
         }
+
+
       }
     });
   }

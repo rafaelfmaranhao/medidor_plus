@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medidor_plus/screens/imoveis.dart';
 import 'package:medidor_plus/screens/login.dart';
-import '../services/dashboard.dart';
+import '../services/dashboard_service.dart';
 import '../services/auth_service.dart';
 
 class Dashboard extends StatefulWidget {
@@ -21,6 +22,17 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     _carregarDados();
+    _getNome();
+  }
+
+  String nomeUsuario = '';
+
+  Future<void> _getNome() async {
+    final nome = await _authService.getNome();
+
+    setState(() {
+      nomeUsuario = nome ?? '';
+    });
   }
 
   Future<void> _carregarDados() async {
@@ -69,6 +81,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _buildHeader() {
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(16, 56, 16, 24),
@@ -86,7 +99,7 @@ class _DashboardState extends State<Dashboard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Olá, Bem-vindo!',
+                'Olá, $nomeUsuario!',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -107,9 +120,7 @@ class _DashboardState extends State<Dashboard> {
                   _authService.logout();
 
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (_) => LoginPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => LoginPage(),),
                     (route) => false,
                   );
                 },
@@ -205,10 +216,9 @@ class _DashboardState extends State<Dashboard> {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () {
-          Navigator.pushNamed(context, 'nova-leitura');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ImoveisPage(),));
         },
-        icon: Icon(Icons.add, color: Colors.white),
-        label: Text('Novo Registro'),
+        label: Text('Imóveis'),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.orangeAccent,
           foregroundColor: Colors.white,

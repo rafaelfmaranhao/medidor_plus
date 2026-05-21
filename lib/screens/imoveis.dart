@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medidor_plus/services/imoveisServices.dart';
+import 'package:medidor_plus/services/imovel_service.dart';
 
 class ImoveisPage extends StatefulWidget {
-
-  final String token;
-  const ImoveisPage({required this.token,super.key});
-  
+  const ImoveisPage({super.key});
 
   @override
   State<ImoveisPage> createState() => _ImoveisPageState();
@@ -24,14 +21,15 @@ class _ImoveisPageState extends State<ImoveisPage> {
     super.initState();
     carregarImoveis();
   }
-  Future<void>carregarImoveis([String pesquisa = ''])async {
-    setState(() =>carregando =true );
-    final resultadopesquisa = await imovelservice.getImoveis(widget.token, pesquisa: pesquisa);
+
+  Future<void> carregarImoveis([String pesquisa = '']) async {
+    setState(() => carregando = true );
+    final resultadopesquisa = await imovelservice.getImoveis(pesquisa);
+
     setState(() {
       imoveis = resultadopesquisa;
       carregando = false;
     });
-
   }
 
 //alert para cadastrar
@@ -50,7 +48,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
       actions: [
         TextButton(onPressed: ()=> Navigator.pop(context), child: Text('Cancelar')),
         ElevatedButton(onPressed: ()async{
-          final resposta = await imovelservice.cadastrar(widget.token, nomeController.text);
+          final resposta = await imovelservice.cadastrar(nomeController.text);
           Navigator.pop(context);
           carregarImoveis();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -79,14 +77,13 @@ class _ImoveisPageState extends State<ImoveisPage> {
       actions: [
         TextButton(onPressed: ()=> Navigator.pop(context), child: Text('Cancelar')),
         ElevatedButton(onPressed: () async{
-          final resposta = await imovelservice.atualizar(widget.token, id, nomeController.text);
+          final resposta = await imovelservice.atualizar(id, nomeController.text);
           Navigator.pop(context);
           carregarImoveis();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(resposta['message']))
           );
         }, child: Text('Atualizar')),
-
       ],
     )
     );
@@ -107,16 +104,19 @@ class _ImoveisPageState extends State<ImoveisPage> {
             child: Text('Cancelar')),
           ElevatedButton(
             onPressed: ()async{
-              final resposta = await imovelservice.deletar(widget.token, id);
+              final resposta = await imovelservice.deletar(id);
+              Navigator.pop(context);
               carregarImoveis();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(resposta['message'])));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(resposta['message']))
+              );
             }, 
             child: Text('Remover', style: TextStyle(color: Colors.white),))
         ],
       ));
   }
 
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
