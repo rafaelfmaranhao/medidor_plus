@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medidor_plus/screens/imoveis.dart';
-import 'package:medidor_plus/screens/login.dart';
+import 'imoveis.dart';
+import 'login.dart';
 import '../services/dashboard_service.dart';
 import '../services/auth_service.dart';
 
@@ -36,9 +36,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> _carregarDados() async {
-    final resposta = await _dashService.getDashboard();
+    // final resposta = await _dashService.getDashboard();
     setState(() {
-      dados = resposta;
+      // dados = resposta;
       _carregando = false;
     });
   }
@@ -151,14 +151,14 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 SizedBox(width: 8),
                 Text(
-                  'Consulmo Água',
+                  'Consumo Água',
                   style: TextStyle(color: Colors.white70, fontSize: 12),
                 ),
 
                 SizedBox(height: 8),
 
                 Text(
-                  'dados da agua',
+                  'm³',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -194,7 +194,7 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(height: 8),
 
                 Text(
-                  'detalhes da energia',
+                  ' kWh',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medidor_plus/screens/Bottom.dart';
-import 'package:medidor_plus/screens/dashboard.dart';
-import './cadastro.dart';
+import 'dashboard.dart';
+import 'cadastro.dart';
+import '/screens/Bottom.dart';
 import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,14 +27,10 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (response['success'] == true) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => Bottom()));
-        emailController.clear();
-        senhaController.clear();
 
         for (final ctrl in [emailController, senhaController]) {
           ctrl.clear();
         }
-
-
       }
     });
   }

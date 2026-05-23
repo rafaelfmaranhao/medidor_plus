@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medidor_plus/services/imovel_service.dart';
+import '/services/imovel_service.dart';
 
 class ImoveisPage extends StatefulWidget {
   const ImoveisPage({super.key});

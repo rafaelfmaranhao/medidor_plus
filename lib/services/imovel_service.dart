@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:medidor_plus/services/auth_service.dart';
+import '/services/auth_service.dart';
 
 
 class ImoveisService{

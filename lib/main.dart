@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/dashboard.dart';
 import 'screens/login.dart';
-import 'screens/imoveis.dart';
 import 'services/auth_service.dart';
 import 'screens/Bottom.dart';
 
