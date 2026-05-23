@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class DashboardService {
-  final String baseUrl = 'http://10.0.2.2:5000';
+  final String baseUrl = 'http://localhost:5000';
 
   Future<Map<String, dynamic>> getDashboard() async {
     try {

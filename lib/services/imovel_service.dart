@@ -5,7 +5,7 @@ import 'package:medidor_plus/services/auth_service.dart';
 
 
 class ImoveisService{
-  final String baseUrl = 'http://10.0.2.2:5000';
+  final String baseUrl = 'http://localhost:5000';
   final _authService = AuthService();
 
   Future<List<dynamic>> getImoveis([String pesquisa = ''])async {

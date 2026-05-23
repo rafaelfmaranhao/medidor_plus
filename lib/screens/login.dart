@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidor_plus/screens/Bottom.dart';
 import 'package:medidor_plus/screens/dashboard.dart';
 import './cadastro.dart';
 import '../services/auth_service.dart';
@@ -25,7 +26,9 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(content: Text(response['message'])),
       );
       if (response['success'] == true) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Bottom()));
+        emailController.clear();
+        senhaController.clear();
 
         for (final ctrl in [emailController, senhaController]) {
           ctrl.clear();

@@ -3,6 +3,7 @@ import 'screens/dashboard.dart';
 import 'screens/login.dart';
 import 'screens/imoveis.dart';
 import 'services/auth_service.dart';
+import 'screens/Bottom.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: logado
-          ? const Dashboard()
+          ? const Bottom()
           : const LoginPage(),
     );
   }

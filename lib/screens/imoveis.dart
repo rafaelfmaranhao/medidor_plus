@@ -120,8 +120,13 @@ class _ImoveisPageState extends State<ImoveisPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Imoveis'),
-        backgroundColor: Color(0xFF1A2B4A),
+        title: Text('Meus Imoveis',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold
+        ),),
+        backgroundColor: Color(0xFF0D1A63),
         foregroundColor: Colors.white,
       ),
       floatingActionButton: FloatingActionButton(
@@ -138,9 +143,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
               decoration: InputDecoration(
                 labelText: 'Pesquisar Imovel',
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12)
-                ),
+                
                 suffixIcon: IconButton(
                   onPressed: (){
                     pesquisaCotroller.clear();

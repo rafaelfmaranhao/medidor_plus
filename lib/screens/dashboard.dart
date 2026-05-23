@@ -84,13 +84,12 @@ class _DashboardState extends State<Dashboard> {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(16, 56, 16, 24),
+      margin: const EdgeInsets.fromLTRB(16,16,16,8),
+      padding: EdgeInsets.fromLTRB(24, 32, 24, 32),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 51, 73, 114),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
-        ),
+        color: Color(0xFF0D1A63),
+        borderRadius: BorderRadius.circular(15)
+        ,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,7 +139,7 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              color: Color(0xFF1A2CA3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -177,7 +176,7 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.amber.shade700,
+              color: Color(0xFF1A2CA3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -220,7 +219,7 @@ class _DashboardState extends State<Dashboard> {
         },
         label: Text('Imóveis'),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.orangeAccent,
+          backgroundColor: Color(0xFFF68048),
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
