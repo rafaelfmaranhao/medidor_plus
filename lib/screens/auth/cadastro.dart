@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
+import '../../services/auth_service.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({super.key});
@@ -11,10 +11,11 @@ class CadastroPage extends StatefulWidget {
 class _CadastroPageState extends State<CadastroPage> {
   final authService = AuthService();
   final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailCadastroController = TextEditingController();
-  final senhaCadastController = TextEditingController();
-  final confirmSenhaController = TextEditingController();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailCadastroController = TextEditingController();
+  TextEditingController senhaCadastController = TextEditingController();
+  TextEditingController confirmSenhaController = TextEditingController();
   bool senhaVisivelCadastro = false;
   bool _carregando = false;
 

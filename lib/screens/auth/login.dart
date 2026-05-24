@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dashboard.dart';
+import 'package:medidor_plus/screens/auth/recuperar_senha.dart';
+import '../dashboard.dart';
 import 'cadastro.dart';
-import '/screens/Bottom.dart';
-import '../services/auth_service.dart';
+import '/screens/bottom.dart';
+import '../../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,8 +15,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final authService = AuthService();
-  final emailController = TextEditingController();
-  final senhaController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
   bool senhaVisivel = false;
 
   Future<void> _login() async {
@@ -78,11 +79,16 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 8),
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton(onPressed: (){}, child: Text('Esqueci minha senha')),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => RecuperarSenha()));
+                  },
+                  child: Text('Esqueci minha senha')
+                ),
               ),
               SizedBox(height: 24),
               SizedBox(
-                width: double.infinity ,//serve cm um margin que ocupa toda largura,
+                width: double.infinity,
                 child: ElevatedButton(onPressed: () async {
                   _login();
                 },

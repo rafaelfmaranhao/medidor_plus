@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'screens/dashboard.dart';
-import 'screens/login.dart';
+import 'screens/auth/login.dart';
 import 'services/auth_service.dart';
-import 'screens/Bottom.dart';
+import 'screens/bottom.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

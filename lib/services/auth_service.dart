@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = 'http://localhost:5000';
+  final String baseUrl = 'http://10.0.2.2:5000';
 
   Future<Map<String, dynamic>> cadastrar(
     String nome,
@@ -44,6 +44,51 @@ class AuthService {
     if (response.statusCode == 200) {
       await salvarToken(data['token'], data['usuario']['nome']);
     }
+
+    return jsonDecode(response.body);
+  }
+
+  Future<Map<String, dynamic>> recuperarSenha(String email) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/recuperarSenha'),
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: jsonEncode({'email': email}),
+      encoding: Encoding.getByName('utf-8')
+    );
+
+    return jsonDecode(response.body);
+  }
+
+  Future<Map<String, dynamic>> validarCodigo(int codigo) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/validarCodigo'),
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: jsonEncode({'codigo': codigo}),
+      encoding: Encoding.getByName('utf-8')
+    );
+
+    return jsonDecode(response.body);
+  }
+
+  Future<Map<String, dynamic>> atualizarSenha(String email, String novaSenha) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/atualizarSenha'),
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: jsonEncode({
+        'email': email,
+        'novaSenha': novaSenha
+      }),
+      encoding: Encoding.getByName('utf-8')
+    );
 
     return jsonDecode(response.body);
   }
