@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:medidor_plus/services/auth_service.dart';
+
 class MedidoresService {
   final String baseUrl = 'http://localhost:5000';
-
-  Map<String, String> headerss(String token)=>{
-    'Content-Tyle': 'application/json',
-    'Authorization': 'Bearer $token',
-  };
+  final _authService = AuthService();
 //get
-  Future<List<dynamic>> getMedidores(String token, int imovelId, {String pesquisa = ''}) async{
+  Future<List<dynamic>> getMedidores( int imovelId, {String pesquisa = ''}) async{
     try{
+      final authHeaders = await _authService.authHeaders();
       final response = await http.get(
         Uri.parse('$baseUrl/medidores?id=$imovelId&q=$pesquisa'),
-        headers: headerss(token)
-      );
+        headers: authHeaders,);
       return jsonDecode(response.body);
     }catch(e){
       return [];
@@ -23,25 +21,26 @@ class MedidoresService {
   }
 //post
   Future<Map<String,dynamic>> cadastrar(
-    String token,
-    String unidade, 
+    String unidade,
     String identificador,
     String tipo,
-    int fkimoveisId,
+    int fkImoveisId,
   )async{
     try{
+      final authHeaders = await _authService.authHeaders();
+
+      print('Enviando: unidade=$unidade, identificador=$identificador, tipo=$tipo, imovelId=$fkImoveisId'); // ← aqui
+
+      
       final response = await http.post(
         Uri.parse('$baseUrl/medidores/cadastrar'),
-        headers: headerss(token),
-        body: jsonEncode(
-          {
-            'unidade': unidade,
-            'identificador' : identificador,
-            'tipo': tipo,
-            'fk_imoceis_id': fkimoveisId,
-            }
-        )
-      );
+        headers: authHeaders,
+        body: jsonEncode({
+          'unidade':       unidade,
+          'identificador': identificador,
+          'tipo':          tipo,
+          'fk_imoveis_id': fkImoveisId,
+        }));
       return jsonDecode(response.body);
     }catch(e){
       return {'success': false, 'message': 'Erro: $e'};
@@ -49,20 +48,20 @@ class MedidoresService {
   }
 //put
   Future<Map<String, dynamic>> atualizar(
-    String token,
     int id,
     String unidade,
     String identificador,
   )async{
     try{
+      final authHeaders = await _authService.authHeaders();
       final response = await http.put(
         Uri.parse('$baseUrl/medidores/atualizar'),
-        headers: headerss(token),
+        headers: authHeaders,
         body: jsonEncode({
-          'id': id,
-          'unidade': unidade,
-          'identificador': identificador
-        })
+          'id':            id,
+          'unidade':       unidade,
+          'identificador': identificador,
+        }),
       );
       return jsonDecode(response.body);
     }catch(e){
@@ -70,12 +69,13 @@ class MedidoresService {
     }
   }
 
-  Future<Map<String, dynamic>> deletar(String token, int id)async{
+  Future<Map<String, dynamic>> deletar(int id)async{
     try{
+      final authHeaders = await _authService.authHeaders();
       final response = await http.delete(
         Uri.parse('$baseUrl/medidores/deletar'),
-        headers: headerss(token),
-        body: jsonEncode({'id': id})
+        headers: authHeaders,
+        body: jsonEncode({'id': id}),
       );
       return jsonDecode(response.body);
     }catch(e){

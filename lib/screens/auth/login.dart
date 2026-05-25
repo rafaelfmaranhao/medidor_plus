@@ -59,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   labelText: 'E-mail',
                   prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder()
                 ),
               ),
 
@@ -72,7 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                   prefixIcon: Icon(Icons.lock),
                   suffixIcon: IconButton(onPressed: () {
                     setState(() => senhaVisivel = !senhaVisivel);
-                  }, icon: Icon(senhaVisivel ? Icons.visibility : Icons.visibility_off))
+                  }, icon: Icon(senhaVisivel ? Icons.visibility : Icons.visibility_off)),
+                  border: OutlineInputBorder()
                 ),
               ),
               

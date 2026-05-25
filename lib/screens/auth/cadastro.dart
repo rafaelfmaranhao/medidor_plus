@@ -69,6 +69,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 decoration: InputDecoration(
                   labelText: 'Nome',
                   prefixIcon: Icon(Icons.person_2_outlined),
+                  border: OutlineInputBorder()
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Insira o seu nome';
@@ -81,6 +82,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 decoration: InputDecoration(
                   labelText: 'E-mail',
                   prefixIcon: Icon(Icons.email_outlined),
+                  border: OutlineInputBorder()
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Por favor, digite seu um email';
@@ -109,6 +111,7 @@ class _CadastroPageState extends State<CadastroPage> {
                           : Icons.visibility_off,
                     ),
                   ),
+                  border: OutlineInputBorder()
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Por favor, digite uma senha';
@@ -137,6 +140,7 @@ class _CadastroPageState extends State<CadastroPage> {
                           : Icons.visibility_off,
                     ),
                   ),
+                  border: OutlineInputBorder()
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Por favor, confirme sua senha';

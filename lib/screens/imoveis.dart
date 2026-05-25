@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import '/services/imovel_service.dart';
+
+import 'package:medidor_plus/screens/medidor.dart';
+import 'package:medidor_plus/services/imovel_service.dart';
+
 
 class ImoveisPage extends StatefulWidget {
   const ImoveisPage({super.key});
@@ -164,6 +167,11 @@ class _ImoveisPageState extends State<ImoveisPage> {
 
                 final imovel = imoveis[index];
                 return ListTile(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=> MedidorPage(imovelId: imovel['id'], imovelNome: imovel['nome'])));
+                  },
+
+
                   leading: CircleAvatar(
                     backgroundColor: Colors.blue.shade50 ,
                     child: Icon(Icons.home, color: Colors.blue),
