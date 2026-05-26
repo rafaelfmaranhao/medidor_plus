@@ -171,7 +171,31 @@ class _ImoveisPageState extends State<ImoveisPage> {
                     Navigator.push(context, MaterialPageRoute(builder: (_)=> MedidorPage(imovelId: imovel['id'], imovelNome: imovel['nome'])));
                   },
 
-
+                  onLongPress: (){
+                    showBottomSheet(
+                      context: context, 
+                      builder: (context)=> Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.edit, color: Colors.orange,),
+                            title: Text('Editar'),
+                            onTap: (){
+                              Navigator.pop(context);
+                              dialogEditar(imovel['id'], imovel['nome']);
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.delete, color: Colors.red,),
+                            title: Text('Deletar'),
+                            onTap: (){
+                              Navigator.pop(context);
+                              dialogEditar(imovel['id'], imovel['nome']);
+                            },
+                          ),
+                        ],
+                      ));
+                  },
                   leading: CircleAvatar(
                     backgroundColor: Colors.blue.shade50 ,
                     child: Icon(Icons.home, color: Colors.blue),
@@ -181,13 +205,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        onPressed: ()=> dialogEditar(imovel['id'], imovel['nome']),
-                        icon: Icon(Icons.edit, color: Colors.amber,)
-                      ),
-                      IconButton(
-                        onPressed: ()=> dialogDeletar(imovel['id'], imovel['nome']), 
-                        icon: Icon(Icons.delete, color: Colors.redAccent,))
+                      Icon(Icons.chevron_right, color: Colors.blue,)
                     ],
                   ),
                 );

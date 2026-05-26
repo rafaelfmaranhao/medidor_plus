@@ -226,23 +226,43 @@ class _MedidorPageState extends State<MedidorPage> {
                   final isAgua = medidor['tipo'] == 'agua';
 
                   return ListTile(
+                    onLongPress: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.edit, color: Colors.orange),
+                              title: Text('Editar'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                dialogEditar(medidor);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.delete, color: Colors.red),
+                              title: Text('Excluir'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                _dialogDeletar(medidor);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                     leading: CircleAvatar(
                       backgroundColor: isAgua ? Colors.blue.shade50 : Colors.amber.shade50,
                       child: Icon(
                         isAgua ? Icons.water_drop : Icons.bolt,
-                        color: isAgua? Colors.blue : Colors.amber,
+                        color: isAgua ? Colors.blue : Colors.amber,
                       ),
                     ),
-                    title: Text(medidor['identificador']),
-                    subtitle: Text('${medidor['tipo']} · ${medidor['unidade']}'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(onPressed: ()=> dialogEditar(medidor), icon: Icon(Icons.edit), color: Colors.orange,),
-                        IconButton(onPressed: ()=> _dialogDeletar(medidor), icon: Icon(Icons.delete), color: Colors.red)
-                      ],
-                    ),
+                    title: Text('${medidor['tipo']} · ${medidor['unidade']}'),
+                    subtitle: Text(medidor['identificador']),
                   );
+//medidor['identificador']
                 },
               )
               )
