@@ -1,12 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:medidor_plus/services/auth_service.dart';
 
 class MedidoresService {
-  final String baseUrl = 'http://localhost:5000';
+  final String baseUrl = dotenv.env['API_URL'] ?? '';
   final _authService = AuthService();
+
+  Map<String, String> headerss(String token)=>{
+    'Content-Tyle': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
 //get
   Future<List<dynamic>> getMedidores( int imovelId, {String pesquisa = ''}) async{
     try{
@@ -31,7 +35,7 @@ class MedidoresService {
 
       print('Enviando: unidade=$unidade, identificador=$identificador, tipo=$tipo, imovelId=$fkImoveisId'); // ← aqui
 
-      
+
       final response = await http.post(
         Uri.parse('$baseUrl/medidores/cadastrar'),
         headers: authHeaders,

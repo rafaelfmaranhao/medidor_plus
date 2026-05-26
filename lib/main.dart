@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/dashboard.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/auth/login.dart';
 import 'services/auth_service.dart';
 import 'screens/bottom.dart';
@@ -7,7 +7,9 @@ import 'screens/bottom.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await dotenv.load(fileName: ".env");
   final bool logado = await AuthService().isLogged();
+
   runApp(MyApp(logado: logado));
 }
 

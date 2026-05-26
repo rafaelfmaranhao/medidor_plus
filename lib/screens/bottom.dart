@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medidor_plus/screens/dashboard.dart';
-import 'package:medidor_plus/screens/imoveis.dart';
+import '/screens/dashboard.dart';
+import '/screens/imoveis.dart';
 
 class Bottom extends StatefulWidget {
   const Bottom({super.key});

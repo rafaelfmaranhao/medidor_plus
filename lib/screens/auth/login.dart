@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medidor_plus/screens/auth/recuperar_senha.dart';
-import '../dashboard.dart';
 import 'cadastro.dart';
 import '/screens/bottom.dart';
 import '../../services/auth_service.dart';

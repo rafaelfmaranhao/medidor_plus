@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '/services/auth_service.dart';
 
 
 class ImoveisService{
-  final String baseUrl = 'http://localhost:5000';
+  final String baseUrl = dotenv.env['API_URL'] ?? '';
   final _authService = AuthService();
 
   Future<List<dynamic>> getImoveis([String pesquisa = ''])async {

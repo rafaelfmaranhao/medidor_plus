@@ -1,10 +1,10 @@
-// services/auth_service.dart
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = 'http://10.0.2.2:5000';
+  final String baseUrl = dotenv.env['API_URL'] ?? '';
 
   Future<Map<String, dynamic>> cadastrar(
     String nome,
