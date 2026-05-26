@@ -116,7 +116,8 @@ class _ImoveisPageState extends State<ImoveisPage> {
             }, 
             child: Text('Remover', style: TextStyle(color: Colors.white),))
         ],
-      ));
+      )
+    );
   }
 
   @override
@@ -153,7 +154,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
                     carregarImoveis();
                   }, 
                   icon: Icon(Icons.clear)
-                  )
+                )
               ),
               onChanged: (value)=> carregarImoveis(value),
             ),
@@ -212,7 +213,6 @@ class _ImoveisPageState extends State<ImoveisPage> {
 
               })
           )
-          
         ],
       )
     );

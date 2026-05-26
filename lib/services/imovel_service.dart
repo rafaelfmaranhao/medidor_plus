@@ -19,8 +19,7 @@ class ImoveisService{
 
       return jsonDecode(response.body);
     }catch (e){
-      print(e);
-      return [];
+      return [{'success': false, 'message': 'Erro: $e'}];
     } 
   }
 

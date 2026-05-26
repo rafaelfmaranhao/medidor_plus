@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidor_plus/screens/leituras.dart';
 import '../services/medidores_service.dart';
 
 class MedidorPage extends StatefulWidget {
@@ -91,13 +92,15 @@ class _MedidorPageState extends State<MedidorPage> {
                   unidadeController.text, 
                   identificador.text, 
                   tipoSelecionado, 
-                  widget.imovelId);
-                  if(!mounted) return;
-                  Navigator.pop(context);
-                  carregarMedidores();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(resposta['message']))
-                  );
+                  widget.imovelId
+                );
+                if(!mounted) return;
+
+                Navigator.pop(context);
+                carregarMedidores();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(resposta['message']))
+                );
               }, 
               child: Text('Salvar'))
           ],
@@ -132,7 +135,7 @@ class _MedidorPageState extends State<MedidorPage> {
           ],
         ),
       actions: [
-        TextButton(onPressed: ()=> Navigator.pop(context), child: Text('Cancelar')),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancelar')),
         ElevatedButton(
           onPressed: () async{
             final resposta = await _service.atualizar(
@@ -141,6 +144,7 @@ class _MedidorPageState extends State<MedidorPage> {
               identificador.text
             );
             if(!mounted) return;
+
             Navigator.pop(context);
             carregarMedidores();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -226,6 +230,10 @@ class _MedidorPageState extends State<MedidorPage> {
                   final isAgua = medidor['tipo'] == 'agua';
 
                   return ListTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=> LeiturasPage(medidorId: medidor['id'], medidorNome: medidor['unidade'])));
+                    },
+
                     onLongPress: () {
                       showModalBottomSheet(
                         context: context,
@@ -262,10 +270,9 @@ class _MedidorPageState extends State<MedidorPage> {
                     title: Text('${medidor['tipo']} · ${medidor['unidade']}'),
                     subtitle: Text(medidor['identificador']),
                   );
-//medidor['identificador']
                 },
               )
-              )
+            )
           ],
         ),
     );

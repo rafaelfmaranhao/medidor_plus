@@ -7,12 +7,8 @@ class MedidoresService {
   final String baseUrl = dotenv.env['API_URL'] ?? '';
   final _authService = AuthService();
 
-  Map<String, String> headerss(String token)=>{
-    'Content-Tyle': 'application/json',
-    'Authorization': 'Bearer $token',
-  };
-//get
-  Future<List<dynamic>> getMedidores( int imovelId, {String pesquisa = ''}) async{
+
+  Future<List<dynamic>> getMedidores(int imovelId, {String pesquisa = ''}) async{
     try{
       final authHeaders = await _authService.authHeaders();
       final response = await http.get(
@@ -20,7 +16,7 @@ class MedidoresService {
         headers: authHeaders,);
       return jsonDecode(response.body);
     }catch(e){
-      return [];
+      return [{'success': false, 'message': 'Erro: $e'}];
     }
   }
 //post
