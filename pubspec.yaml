@@ -37,6 +37,8 @@ dependencies:
   http: ^1.6.0
   shared_preferences: ^2.5.5
   flutter_dotenv: ^6.0.1
+  intl: ^0.20.2
+  datetime_picker_formfield_new: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -187,7 +187,7 @@ class _MedidorPageState extends State<MedidorPage> {
   );
 }
 
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(

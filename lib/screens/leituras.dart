@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medidor_plus/services/leitura_service.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 
 class LeiturasPage extends StatefulWidget {
 
@@ -17,10 +19,13 @@ class LeiturasPage extends StatefulWidget {
 }
 
 class _LeiturasPageState extends State<LeiturasPage> {
+
   final _service = LeituraService();
   final pesquisaCotroller = TextEditingController();
   List<dynamic> leituras = [];
   bool carregando = false;
+
+  final format = DateFormat('dd/MM/yyyy HH:mm');
 
   @override
   void initState(){
@@ -70,6 +75,39 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 ),
               ),
               SizedBox(height: 12,),
+              DateTimeField(
+                format: format,
+                decoration: const InputDecoration(
+                  labelText: 'Data e Hora',
+                  border: OutlineInputBorder(),
+                ),
+                onShowPicker: (context, currentValue) async {
+                  final data = await showDatePicker(
+                    context: context,
+                    initialDate: currentValue ?? DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+
+                  if (data == null) return currentValue;
+
+                  final hora = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.fromDateTime(
+                      currentValue ?? DateTime.now(),
+                    ),
+                  );
+
+                  return DateTime(
+                    data.year,
+                    data.month,
+                    data.day,
+                    hora?.hour ?? 0,
+                    hora?.minute ?? 0,
+                  );
+                },
+              ),
+              SizedBox(height: 12,),
               TextField(
                 controller: valorTotal,
                 decoration: InputDecoration(
@@ -104,6 +142,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
       )
     );
   }
+  
   void dialogEditar(dynamic leitura){
     final leituraController = TextEditingController();
     final dataLeituraCtrl = TextEditingController();
@@ -198,7 +237,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
     );
   }
 
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
