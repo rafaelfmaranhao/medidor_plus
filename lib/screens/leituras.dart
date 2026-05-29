@@ -67,22 +67,16 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 ),
               ),
               SizedBox(height: 12,),
-              TextField(
-                controller: dataLeituraCtrl,
-                decoration: InputDecoration(
-                  labelText: 'Data Leitura' ,
-                  border: OutlineInputBorder()
-                ),
-              ),
-              SizedBox(height: 12,),
               DateTimeField(
                 format: format,
+                controller: dataLeituraCtrl,
                 decoration: const InputDecoration(
                   labelText: 'Data e Hora',
                   border: OutlineInputBorder(),
                 ),
                 onShowPicker: (context, currentValue) async {
                   final data = await showDatePicker(
+                    helpText: 'Selecione a data',
                     context: context,
                     initialDate: currentValue ?? DateTime.now(),
                     firstDate: DateTime(2000),
@@ -143,7 +137,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
     );
   }
   
-  void dialogEditar(dynamic leitura){
+  void _dialogEditar(dynamic leitura){
     final leituraController = TextEditingController();
     final dataLeituraCtrl = TextEditingController();
     final valorTotal = TextEditingController();
@@ -163,12 +157,39 @@ class _LeiturasPageState extends State<LeiturasPage> {
               ),
             ),
             SizedBox(height: 12,),
-            TextField(
+            DateTimeField(
+              format: format,
               controller: dataLeituraCtrl,
-              decoration: InputDecoration(
-                  labelText: 'Data Leitura',
-                  border: OutlineInputBorder()
+              decoration: const InputDecoration(
+                labelText: 'Data e Hora',
+                border: OutlineInputBorder(),
               ),
+              onShowPicker: (context, currentValue) async {
+                final data = await showDatePicker(
+                  helpText: 'Selecione a data',
+                  context: context,
+                  initialDate: currentValue ?? DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+
+                if (data == null) return currentValue;
+
+                final hora = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.fromDateTime(
+                    currentValue ?? DateTime.now(),
+                  ),
+                );
+
+                return DateTime(
+                  data.year,
+                  data.month,
+                  data.day,
+                  hora?.hour ?? 0,
+                  hora?.minute ?? 0,
+                );
+              },
             ),
             SizedBox(height: 12,),
             TextField(
@@ -260,7 +281,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 labelText: 'Pesquisar Medidor',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12)
+                  borderRadius: BorderRadius.circular(12)
                 ),
                 suffixIcon: IconButton(onPressed: (){
                   pesquisaCotroller.clear();
@@ -288,11 +309,11 @@ class _LeiturasPageState extends State<LeiturasPage> {
                     ),
                   ),
                   title: Text(leitura['leitura']),
-                  subtitle: Text('${leitura['data_leitura']}'),
+                  subtitle: Text('${leitura['valor_total']} - ${leitura['data_leitura']}'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(onPressed: ()=> dialogEditar(leitura), icon: Icon(Icons.edit), color: Colors.orange,),
+                      IconButton(onPressed: ()=> _dialogEditar(leitura), icon: Icon(Icons.edit), color: Colors.orange,),
                       IconButton(onPressed: ()=> _dialogDeletar(leitura), icon: Icon(Icons.delete), color: Colors.red)
                     ],
                   ),
