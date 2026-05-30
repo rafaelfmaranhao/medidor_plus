@@ -3,6 +3,7 @@ import 'imoveis.dart';
 import 'auth/login.dart';
 import '../services/dashboard_service.dart';
 import '../services/auth_service.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -15,7 +16,6 @@ class _DashboardState extends State<Dashboard> {
   final _dashService = DashboardService();
   final _authService = AuthService();
 
-  Map<String, dynamic> dados = {};
   bool _carregando = true;
 
   @override
@@ -25,7 +25,15 @@ class _DashboardState extends State<Dashboard> {
     _getNome();
   }
 
+  String formatarReais(double valor) {
+    return NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+    ).format(valor);
+  }
+
   String nomeUsuario = '';
+  Map<String, dynamic> dados = {};
 
   Future<void> _getNome() async {
     final nome = await _authService.getNome();
@@ -36,9 +44,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> _carregarDados() async {
-    // final resposta = await _dashService.getDashboard();
+    final resposta = await _dashService.getDashboard();
+    dados = resposta;
     setState(() {
-      // dados = resposta;
       _carregando = false;
     });
   }
@@ -106,7 +114,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Text(
-                'Seu controle doméstico',
+                'Medidor+',
                 style: TextStyle(color: Colors.white70, fontSize: 13),
               ),
             ],
@@ -151,14 +159,14 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 SizedBox(width: 8),
                 Text(
-                  'Consumo Água',
+                  'Total Água',
                   style: TextStyle(color: Colors.white70, fontSize: 12),
                 ),
 
                 SizedBox(height: 8),
 
                 Text(
-                  'm³',
+                  formatarReais(double.parse(dados['total_agua'])),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -194,7 +202,7 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(height: 8),
 
                 Text(
-                  ' kWh',
+                  formatarReais(double.parse(dados['total_energia'])),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -208,7 +216,6 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
   }
-
 
   Widget btnAdd(BuildContext context) {
     return SizedBox(

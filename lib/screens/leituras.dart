@@ -22,9 +22,8 @@ class _LeiturasPageState extends State<LeiturasPage> {
 
   final _service = LeituraService();
   final pesquisaCotroller = TextEditingController();
-  List<dynamic> leituras = [];
-  bool carregando = false;
 
+  bool carregando = false;
   final format = DateFormat('dd/MM/yyyy HH:mm');
 
   @override
@@ -33,15 +32,24 @@ class _LeiturasPageState extends State<LeiturasPage> {
     getLeituras();
   }
 
+  String formatarReais(double valor) {
+    return NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+    ).format(valor);
+  }
+
+  List<dynamic> leituras = [];
+
   Future<void> getLeituras({String pesquisa = ''}) async {
     setState(()=> carregando  = true );
     final resultado = await _service.getLeituras(
         widget.medidorId,
         pesquisa: pesquisa
     );
+    leituras = resultado;
 
     setState(() {
-      leituras = resultado;
       carregando = false;
     });
   }
@@ -308,8 +316,8 @@ class _LeiturasPageState extends State<LeiturasPage> {
                       color: Colors.blue,
                     ),
                   ),
-                  title: Text(leitura['leitura']),
-                  subtitle: Text('${leitura['valor_total']} - ${leitura['data_leitura']}'),
+                  title: Text('Leitura: ${leitura['leitura']}'),
+                  subtitle: Text('${formatarReais(double.parse(leitura['valor_total']))} - ${leitura['data_leitura']}'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
