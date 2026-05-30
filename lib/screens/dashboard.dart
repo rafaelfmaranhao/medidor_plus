@@ -15,12 +15,9 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   final _dashService = DashboardService();
   final _authService = AuthService();
-
-<<<<<<< HEAD
+  
   Map<String, dynamic> dados = {};
   List<dynamic> _historico = [];
-=======
->>>>>>> c58e22d51705f4b2da2f4834094e970baffa7d8e
   bool _carregando = true;
 
   @override
@@ -38,7 +35,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   String nomeUsuario = '';
-  Map<String, dynamic> dados = {};
 
   Future<void> _getNome() async {
     final nome = await _authService.getNome();
@@ -150,6 +146,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget criarCards() {
+    final totalAgua    = dados['total_agua']?.toString()    ?? '0';
+    final totalEnergia = dados['total_energia']?.toString() ?? '0';
     return Row(
       children: [
         Expanded(
@@ -168,19 +166,14 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 SizedBox(width: 8),
                 Text(
-<<<<<<< HEAD
-                  'Consumo Água',
-                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
-=======
                   'Total Água',
                   style: TextStyle(color: Colors.white70, fontSize: 12),
->>>>>>> c58e22d51705f4b2da2f4834094e970baffa7d8e
                 ),
 
                 SizedBox(height: 8),
 
                 Text(
-                  formatarReais(double.parse(dados['total_agua'])),
+                  formatarReais(double.parse(totalAgua)),
                   style: TextStyle(
                     color: Color.fromARGB(255, 50, 86, 214),
                     fontSize: 24,
@@ -216,7 +209,7 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(height: 8),
 
                 Text(
-                  formatarReais(double.parse(dados['total_energia'])),
+                  formatarReais(double.parse(totalEnergia)),
                   style: TextStyle(
                     color: Color.fromARGB(255, 50, 86, 214),
                     fontSize: 24,

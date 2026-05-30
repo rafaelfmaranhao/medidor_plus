@@ -38,7 +38,7 @@ class LeituraService {
           'leitura': leitura,
           'data_leitura': dataLeitura,
           'valor_total': valorTotal,
-          'fk_medidor_id': medidorId,
+          'medidor_id': medidorId,
         }));
       return jsonDecode(response.body);
     }catch(e){
