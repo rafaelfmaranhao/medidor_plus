@@ -9,10 +9,10 @@ class MedidorPage extends StatefulWidget {
 
 
   const MedidorPage({
-
     required this.imovelId,
     required this.imovelNome,
-    super.key});
+    super.key
+  });
 
   @override
   State<MedidorPage> createState() => _MedidorPageState();
@@ -46,7 +46,7 @@ class _MedidorPageState extends State<MedidorPage> {
   void dialogCadastrar(){
     final unidadeController = TextEditingController();
     final identificador = TextEditingController();
-    String tipoSelecionado = 'agua';
+    String tipoSelecionado = 'Água';
 
     showDialog(
       context: context, 
@@ -59,7 +59,7 @@ class _MedidorPageState extends State<MedidorPage> {
               TextField(
                 controller: unidadeController,
                 decoration: InputDecoration(
-                  labelText: 'Unidade (ex: m³, kWh)',
+                  labelText: 'Unidade (ex: Ap 102, Kit 015)',
                   border: OutlineInputBorder()
                 ),
               ),
@@ -67,7 +67,7 @@ class _MedidorPageState extends State<MedidorPage> {
               TextField(
                 controller: identificador,
                 decoration: InputDecoration(
-                  labelText: 'Identificador (ex: MED-001)' ,
+                  labelText: 'Identificador (número de série)' ,
                   border: OutlineInputBorder()
                 ),
                
@@ -76,8 +76,8 @@ class _MedidorPageState extends State<MedidorPage> {
               DropdownButtonFormField<String>(
                 value: tipoSelecionado,
                 items: [
-                  DropdownMenuItem(value: 'agua', child: Text('Água')),
-                  DropdownMenuItem(value: 'energia', child: Text('Energia'))
+                  DropdownMenuItem(value: 'Água', child: Text('Água')),
+                  DropdownMenuItem(value: 'Energia', child: Text('Energia'))
                 ], 
               onChanged: (value){
                 setStateDialog(()=> tipoSelecionado = value!);
@@ -173,7 +173,7 @@ class _MedidorPageState extends State<MedidorPage> {
             final resposta = await _service.deletar(
               medidor['id']
             );
-            if (!mounted) return; // ← adiciona isso
+            if (!mounted) return;
             Navigator.pop(context);
             carregarMedidores();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -227,7 +227,7 @@ class _MedidorPageState extends State<MedidorPage> {
                 separatorBuilder: (context, index)=> Divider(),
                 itemBuilder: (context, index){
                   final medidor = medidores[index];
-                  final isAgua = medidor['tipo'] == 'agua';
+                  final isAgua = medidor['tipo'] == 'Água';
 
                   return ListTile(
                     onTap: (){
