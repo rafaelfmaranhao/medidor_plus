@@ -16,6 +16,7 @@ class _DashboardState extends State<Dashboard> {
   final _authService = AuthService();
 
   Map<String, dynamic> dados = {};
+  List<dynamic> _historico = [];
   bool _carregando = true;
 
   @override
@@ -29,9 +30,12 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> _getNome() async {
     final nome = await _authService.getNome();
+    final historico = await _dashService.getHistorico();
 
     setState(() {
       nomeUsuario = nome ?? '';
+      _historico = historico;
+      _carregando = false;
     });
   }
 
@@ -54,6 +58,7 @@ class _DashboardState extends State<Dashboard> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            
             _buildHeader(),
 
             Padding(
@@ -87,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
       margin: const EdgeInsets.fromLTRB(16,16,16,8),
       padding: EdgeInsets.fromLTRB(24, 32, 24, 32),
       decoration: BoxDecoration(
-        color: Color(0xFF0D1A63),
+        color: Color(0xFF111FA2),
         borderRadius: BorderRadius.circular(15)
         ,
       ),
@@ -123,7 +128,7 @@ class _DashboardState extends State<Dashboard> {
                     (route) => false,
                   );
                 },
-                icon: Icon(Icons.logout, color: Colors.white,),
+                icon: Icon(Icons.logout, color: const Color.fromARGB(255, 255, 128, 126),),
               )
             ],
           )
@@ -139,20 +144,20 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color(0xFF1A2CA3),
+              color: Color(0xFF53CBF3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.white24,
+                  backgroundColor: Color(0xFF5478FF),
                   child: Icon(Icons.water_sharp, color: Colors.white),
                 ),
                 SizedBox(width: 8),
                 Text(
                   'Consumo Água',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
                 ),
 
                 SizedBox(height: 8),
@@ -160,7 +165,7 @@ class _DashboardState extends State<Dashboard> {
                 Text(
                   'm³',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 50, 86, 214),
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -176,19 +181,19 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color(0xFF1A2CA3),
+              color: Color(0xFF53CBF3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.white24,
+                  backgroundColor: Color(0xFF5478FF),
                   child: Icon(Icons.energy_savings_leaf, color: Colors.white),
                 ),
                 Text(
                   'Consumo Luz',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
                 ),
 
                 SizedBox(height: 8),
@@ -196,7 +201,7 @@ class _DashboardState extends State<Dashboard> {
                 Text(
                   ' kWh',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 50, 86, 214),
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -219,8 +224,8 @@ class _DashboardState extends State<Dashboard> {
         },
         label: Text('Imóveis'),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFF68048),
-          foregroundColor: Colors.white,
+          backgroundColor: Color(0xFFFFDE42),
+          foregroundColor: Color(0xFF111FA2),
           padding: EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadiusGeometry.circular(12),
@@ -231,25 +236,32 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget historico() {
+    if(_historico.isEmpty){
+      return Center(child: Text('Nenhuma leitura registrada'));
+    }
     return Column(
-      children: [
-        ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue.shade50,
-            child: Icon(Icons.water_drop, color: Colors.blue),
-          ),
-          title: Text('Água - Leitura'),
-          subtitle: Text('Out'),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text('Agua', style: TextStyle(fontWeight: FontWeight.bold)),
-            ],
+    children: _historico.map<Widget>((leitura) {  // ← adiciona <Widget>
+      final isAgua = leitura['tipo'] == 'agua';
+
+      return ListTile(
+        leading: CircleAvatar(
+          backgroundColor: isAgua
+            ? Colors.blue.shade50
+            : Colors.amber.shade50,
+          child: Icon(
+            isAgua ? Icons.water_drop_outlined : Icons.bolt,
+            color: isAgua ? Color(0xFF111FA2) : Colors.amber,
           ),
         ),
-      ],
-    );
+        title: Text('${isAgua ? 'Água' : 'Energia'} - ${leitura['imovel']}'),
+        subtitle: Text(leitura['data_leitura']),
+        trailing: Text(
+          '${leitura['leitura']} ${leitura['unidade']}',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
+    }).toList(), // ← tem que ter o .toList() no final
+  );
   }
 }
 

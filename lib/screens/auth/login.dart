@@ -43,12 +43,18 @@ class _LoginPageState extends State<LoginPage> {
         child: Form(
           child: Column(
             children: [
-              SizedBox(height: 60),
-              Icon(Icons.water_drop, size: 80, color: Colors.blueAccent),
-              SizedBox(height: 16),
+              SizedBox(height: 0),
+              Image.asset('assets/imagens/logoMedidor.png',
+              width: 200,
+              height: 200,
+              fit: BoxFit.contain ),
               Text(
-                'Login',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                'Bem-vindo!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'Faça Login para continuar',
+                style: TextStyle(fontSize: 10,),
               ),
             
               SizedBox(height: 40),
@@ -58,7 +64,14 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   labelText: 'E-mail',
                   prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromRGBO(83, 203, 243, 1),
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(12)
+                  ),
+
                 ),
               ),
 
@@ -73,7 +86,13 @@ class _LoginPageState extends State<LoginPage> {
                   suffixIcon: IconButton(onPressed: () {
                     setState(() => senhaVisivel = !senhaVisivel);
                   }, icon: Icon(senhaVisivel ? Icons.visibility : Icons.visibility_off)),
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color:  Color.fromRGBO(83, 203, 243, 1),
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(12)
+                  )
                 ),
               ),
               
@@ -94,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                   _login();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Color(0xFF111FA2),
                   foregroundColor: Colors.white
                 ),
                 child: Text('Entrar')),

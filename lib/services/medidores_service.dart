@@ -29,9 +29,6 @@ class MedidoresService {
     try{
       final authHeaders = await _authService.authHeaders();
 
-      print('Enviando: unidade=$unidade, identificador=$identificador, tipo=$tipo, imovelId=$fkImoveisId'); // ← aqui
-
-
       final response = await http.post(
         Uri.parse('$baseUrl/medidores/cadastrar'),
         headers: authHeaders,

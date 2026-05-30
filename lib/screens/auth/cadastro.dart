@@ -56,9 +56,11 @@ class _CadastroPageState extends State<CadastroPage> {
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(height: 60),
-              Icon(Icons.water_drop, size: 80, color: Colors.blueAccent),
-              SizedBox(height: 16),
+              SizedBox(height: 00),
+              Image.asset('assets/imagens/logoMedidor.png',
+              width: 200,
+              height: 200,
+              fit: BoxFit.contain ),
               Text(
                 'Cadastro',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -69,7 +71,13 @@ class _CadastroPageState extends State<CadastroPage> {
                 decoration: InputDecoration(
                   labelText: 'Nome',
                   prefixIcon: Icon(Icons.person_2_outlined),
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color:  Color.fromRGBO(83, 203, 243, 1),
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(12)
+                  )
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Insira o seu nome';
@@ -82,7 +90,13 @@ class _CadastroPageState extends State<CadastroPage> {
                 decoration: InputDecoration(
                   labelText: 'E-mail',
                   prefixIcon: Icon(Icons.email_outlined),
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color:  Color.fromRGBO(83, 203, 243, 1),
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(12)
+                  )
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Por favor, digite seu um email';
@@ -111,7 +125,13 @@ class _CadastroPageState extends State<CadastroPage> {
                           : Icons.visibility_off,
                     ),
                   ),
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color:  Color.fromRGBO(83, 203, 243, 1),
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(12)
+                  )
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Por favor, digite uma senha';
@@ -140,7 +160,13 @@ class _CadastroPageState extends State<CadastroPage> {
                           : Icons.visibility_off,
                     ),
                   ),
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color:  Color.fromRGBO(83, 203, 243, 1),
+                      width: 2
+                    ),
+                    borderRadius: BorderRadius.circular(12)
+                  )
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Por favor, confirme sua senha';
@@ -155,7 +181,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 child: ElevatedButton(
                   onPressed: _carregando
                       ? null
-                      : _cadastrar, // ← chama a função
+                      : _cadastrar, 
                   child: _carregando
                       ? CircularProgressIndicator(color: Colors.white)
                       : Text('Cadastrar'),

@@ -23,7 +23,7 @@ class _BottomState extends State<Bottom> {
         onTap: (indice){
           setState(()=> telaSeleceionada = indice);
         },
-        selectedItemColor: Color(0xFF2845D6),
+        selectedItemColor: Color(0xFF111FA2),
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Início'),
