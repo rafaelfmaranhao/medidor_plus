@@ -268,7 +268,7 @@ class _MedidorPageState extends State<MedidorPage> {
                       ),
                     ),
                     title: Text('${medidor['tipo']} · ${medidor['unidade']}'),
-                    subtitle: Text(medidor['identificador']),
+                    subtitle: Text('Ident.: ${medidor['identificador']}'),
                   );
                 },
               )

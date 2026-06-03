@@ -28,9 +28,9 @@ class _ImoveisPageState extends State<ImoveisPage> {
   Future<void> carregarImoveis([String pesquisa = '']) async {
     setState(() => carregando = true );
     final resultadopesquisa = await imovelservice.getImoveis(pesquisa);
+    imoveis = resultadopesquisa;
 
     setState(() {
-      imoveis = resultadopesquisa;
       carregando = false;
     });
   }
@@ -159,9 +159,11 @@ class _ImoveisPageState extends State<ImoveisPage> {
               onChanged: (value)=> carregarImoveis(value),
             ),
           ),
-          Expanded(child: carregando ? Center(child: CircularProgressIndicator()) : imoveis.isEmpty ?Center(
-            child: Text('Nenhum imovel cadastrado')): ListView.separated(
+          Expanded(child: carregando ? Center(child: CircularProgressIndicator()) :
+            imoveis.isEmpty || imoveis[0]['nome'] == null ?
+            Center(child: Text('Nenhum imovel cadastrado')) :
 
+            ListView.separated(
               itemCount: imoveis.length, 
               separatorBuilder: (context, index)=> Divider(), 
               itemBuilder: (context, index){
@@ -173,7 +175,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
                   },
 
                   onLongPress: (){
-                    showBottomSheet(
+                    showModalBottomSheet(
                       context: context, 
                       builder: (context)=> Column(
                         mainAxisSize: MainAxisSize.min,

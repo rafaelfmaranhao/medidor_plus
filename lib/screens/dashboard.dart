@@ -62,11 +62,12 @@ class _DashboardState extends State<Dashboard> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 243, 243, 243),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
+            SizedBox(height: 10,),
+
             _buildHeader(),
 
             Padding(
@@ -167,7 +168,7 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(width: 8),
                 Text(
                   'Total Água',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
                 ),
 
                 SizedBox(height: 8),
@@ -202,7 +203,7 @@ class _DashboardState extends State<Dashboard> {
                   child: Icon(Icons.energy_savings_leaf, color: Colors.white),
                 ),
                 Text(
-                  'Consumo Luz',
+                  'Total Energia',
                   style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
                 ),
 
