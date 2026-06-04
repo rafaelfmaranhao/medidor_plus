@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/screens/dashboard.dart';
+import '../screens/relatorios.dart';
 import '/screens/imoveis.dart';
 
 class Bottom extends StatefulWidget {
@@ -12,7 +13,7 @@ class Bottom extends StatefulWidget {
 class _BottomState extends State<Bottom> {
   int telaSeleceionada = 0;
 
-  final List<Widget>_telas =[Dashboard(), ImoveisPage()];
+  final List<Widget>_telas =[Dashboard(), ImoveisPage(), RelatoriosPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,8 @@ class _BottomState extends State<Bottom> {
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Início'),
-          BottomNavigationBarItem(icon: Icon(Icons.home_work), label: 'Imoveis')
+          BottomNavigationBarItem(icon: Icon(Icons.home_work), label: 'Imoveis'),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Relatórios')
         ],
       ),
     );

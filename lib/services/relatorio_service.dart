@@ -23,12 +23,22 @@ class RelatorioService {
     }
   }
 
-  Future<List<dynamic>> consumoPeriodo() async {
+  Future<List<dynamic>> consumoPeriodo({
+    required String dataIncial,
+    required String dataFinal,
+    String? imovelId,
+    String? medidorId
+
+   }) async {
     final authHeaders = await _authService.authHeaders();
+
+    String url = "$baseUrl/relatorios/consumoPeriodo?data_inicial=$dataIncial&data_final=$dataFinal";
+    if (imovelId != null) url += '&imovel=$imovelId';
+    if  (medidorId != null) url += '&medidor=$medidorId';
 
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/relatorios/consumoPeriodo'),
+        Uri.parse(url),
         headers: authHeaders
       );
 
