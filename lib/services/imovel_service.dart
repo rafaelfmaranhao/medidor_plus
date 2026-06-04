@@ -19,7 +19,7 @@ class ImoveisService{
 
       return jsonDecode(response.body);
     }catch (e){
-      return [{'success': false, 'message': 'Erro: $e'}];
+      return [{'success': false, 'message': 'Erro na consulta', 'erro': 'Erro: $e'}];
     } 
   }
 
@@ -34,7 +34,7 @@ class ImoveisService{
       );
       return jsonDecode(response.body);
     }catch(e){
-      return {'success': false, 'message': 'Erro: $e'};
+      return {'success': false, 'message': 'Erro no endpoint', 'erro': 'Erro: $e'};
     }
   }
 
@@ -50,7 +50,7 @@ class ImoveisService{
       return jsonDecode(response.body);
 
     }catch(e){
-      return {'success':false,'message':'Erro:$e'};
+      return {'success':false, 'message':'Erro no endpoint', 'erro': 'Erro: $e'};
     }
   }
 
@@ -65,7 +65,7 @@ class ImoveisService{
       );
     return jsonDecode(response.body);
     }catch(e){
-    return {'success': false, 'message': 'Erro: $e'};
+    return {'success': false, 'message': 'Erro no endpoint', 'erro': 'Erro: $e'};
   }
   }
 }

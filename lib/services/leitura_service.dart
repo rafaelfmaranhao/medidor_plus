@@ -18,7 +18,7 @@ class LeituraService {
 
       return jsonDecode(response.body);
     } catch (e) {
-      return [{'success': false, 'message': 'Erro: $e'}];
+      return [{'success': false, 'message': 'Erro na consulta'}];
     }
   }
 
@@ -42,7 +42,7 @@ class LeituraService {
         }));
       return jsonDecode(response.body);
     }catch(e){
-      return {'success': false, 'message': 'Erro: $e'};
+      return {'success': false, 'message': 'Erro no endpoint'};
     }
   }
 //put
@@ -66,7 +66,7 @@ class LeituraService {
       );
       return jsonDecode(response.body);
     } catch(e) {
-      return{'success': false, 'message': 'Erro: $e'};
+      return{'success': false, 'message': 'Erro no endpoint'};
     }
   }
 
@@ -80,7 +80,7 @@ class LeituraService {
       );
       return jsonDecode(response.body);
     } catch(e) {
-      return {'success': false,'message' : 'Erro: $e'};
+      return {'success': false,'message' : 'Erro no endpoint'};
     }
   }
 }

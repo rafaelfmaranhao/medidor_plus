@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:medidor_plus/screens/medidor.dart';
+import 'package:medidor_plus/screens/medidores.dart';
 import 'package:medidor_plus/services/imovel_service.dart';
 
 
@@ -40,7 +40,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
     final nomeController = TextEditingController();
     showDialog(context: context, builder: (context)=> 
     AlertDialog(
-      title: Text('Novo Imovel'),
+      title: Text('Novo Imóvel'),
       content: TextField(
         controller: nomeController,
         decoration: InputDecoration(
@@ -68,7 +68,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
     final nomeController = TextEditingController(text: nomeAtual);
 
     showDialog(context: context, builder: (context)=> AlertDialog(
-      title: Text('Editar Imovel'),
+      title: Text('Editar Imóvel'),
       content: TextField(
         controller: nomeController,
         decoration: InputDecoration(
@@ -124,12 +124,14 @@ class _ImoveisPageState extends State<ImoveisPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Imoveis',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold
-        ),),
+        title: Text(
+          'Meus Imóveis',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold
+          ),
+        ),
         backgroundColor: Color(0xFF0D1A63),
         foregroundColor: Colors.white,
       ),
@@ -145,7 +147,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
             child: TextField(
               controller: pesquisaCotroller,
               decoration: InputDecoration(
-                labelText: 'Pesquisar Imovel',
+                labelText: 'Pesquisar Imóveis',
                 prefixIcon: Icon(Icons.search),
                 
                 suffixIcon: IconButton(
@@ -203,8 +205,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
                     backgroundColor: Colors.blue.shade50 ,
                     child: Icon(Icons.home, color: Colors.blue),
                   ),
-                  title: Text(imovel['nome']),
-                  subtitle: Text('ID: ${imovel['id']}'),
+                  title: Text(imovel['nome'], style: TextStyle(fontSize: 17),),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

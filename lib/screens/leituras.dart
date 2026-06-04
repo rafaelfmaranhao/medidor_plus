@@ -215,7 +215,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
             getLeituras();
           }, child: Text('Cancelar')),
           ElevatedButton(
-            onPressed: () async{
+            onPressed: () async {
               final resposta = await _service.atualizar(
                 leitura['id'],
                 leituraController.text,
@@ -223,6 +223,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 double.parse(valorTotal.text)
               );
               if(!mounted) return;
+
               Navigator.pop(context);
               getLeituras();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -286,7 +287,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
             child: TextField(
               controller: pesquisaCotroller,
               decoration: InputDecoration(
-                labelText: 'Pesquisar Medidor',
+                labelText: 'Pesquisar Leituras',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12)
@@ -301,7 +302,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
           ),
           Expanded(
             child: carregando ? Center(child: CircularProgressIndicator()) :
-            leituras.isEmpty ? Center(child: Text('Nenhuma leitura cadastrado')) :
+            leituras.isEmpty ? Center(child: Text('Nenhuma leitura registrada')) :
             ListView.separated(
               itemCount: leituras.length,
               separatorBuilder: (context, index) => Divider(),

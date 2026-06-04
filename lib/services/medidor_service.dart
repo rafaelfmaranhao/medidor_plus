@@ -1,25 +1,26 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '/services/auth_service.dart';
+import 'auth_service.dart';
 
 class MedidoresService {
   final String baseUrl = dotenv.env['API_URL'] ?? '';
   final _authService = AuthService();
 
-
   Future<List<dynamic>> getMedidores(int imovelId, {String pesquisa = ''}) async{
     try{
       final authHeaders = await _authService.authHeaders();
+
       final response = await http.get(
         Uri.parse('$baseUrl/medidores?id=$imovelId&q=$pesquisa'),
-        headers: authHeaders,);
+        headers: authHeaders,
+      );
       return jsonDecode(response.body);
-    }catch(e){
-      return [{'success': false, 'message': 'Erro: $e'}];
+    } catch(e) {
+      return [{'success': false, 'message': 'Erro na consulta'}];
     }
   }
-//post
+
   Future<Map<String,dynamic>> cadastrar(
     String unidade,
     String identificador,
@@ -40,10 +41,10 @@ class MedidoresService {
         }));
       return jsonDecode(response.body);
     }catch(e){
-      return {'success': false, 'message': 'Erro: $e'};
+      return {'success': false, 'message': 'Erro no endpoint'};
     }
   }
-//put
+
   Future<Map<String, dynamic>> atualizar(
     int id,
     String unidade,
@@ -62,7 +63,7 @@ class MedidoresService {
       );
       return jsonDecode(response.body);
     }catch(e){
-      return{'success': false, 'message': 'Erro: $e'};
+      return{'success': false, 'message': 'Erro no endpoint'};
     }
   }
 
@@ -76,7 +77,7 @@ class MedidoresService {
       );
       return jsonDecode(response.body);
     }catch(e){
-      return {'success': false,'message' : 'Erro: $e'};
+      return {'success': false,'message' : 'Erro no endpoint'};
     }
   }
 }

@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'auth_service.dart';
 
-import 'package:medidor_plus/services/auth_service.dart';
-
 class DashboardService {
   final String baseUrl = dotenv.env['API_URL'] ?? '';
   final _authService = AuthService();

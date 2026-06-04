@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medidor_plus/screens/leituras.dart';
-import '../services/medidores_service.dart';
+import '../services/medidor_service.dart';
 
 class MedidorPage extends StatefulWidget {
 
@@ -174,6 +174,7 @@ class _MedidorPageState extends State<MedidorPage> {
               medidor['id']
             );
             if (!mounted) return;
+
             Navigator.pop(context);
             carregarMedidores();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -207,7 +208,7 @@ class _MedidorPageState extends State<MedidorPage> {
               child: TextField(
                 controller: pesquisaCotroller,
                 decoration: InputDecoration(
-                  labelText: 'Pesquisar Medidor',
+                  labelText: 'Pesquisar Medidores',
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12)
