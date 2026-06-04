@@ -41,7 +41,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
   }
 
   Future<void> _gerarRelatorio() async {
-    if(_dataFinal == null || _dataFinal == null){
+    if(_dataInicial == null || _dataFinal == null){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Selecione a data inicial e final'))
       );
@@ -49,7 +49,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
     }
     setState(() => _carregandoRelaorio = true);
     final resultado = await _service.consumoPeriodo(
-      dataIncial: _dateFormat.format(_dataInicial!),
+      dataInicial: _dateFormat.format(_dataInicial!),
       dataFinal:   _dateFormat.format(_dataFinal!),
       imovelId:    _imovelSelecionado?['id']?.toString(),
       medidorId:   _medidorSelecionado?['id']?.toString(),
