@@ -78,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
                   criarCards(),
                   SizedBox(height: 24),
                   btnAdd(context),
-                  SizedBox(height: 24),
+                  SizedBox(height: 60),
                   Text(
                     'Histórico',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -155,7 +155,7 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color(0xFF53CBF3),
+              color: Color.fromARGB(255, 200, 200, 200),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -165,13 +165,15 @@ class _DashboardState extends State<Dashboard> {
                   backgroundColor: Color(0xFF5478FF),
                   child: Icon(Icons.water_sharp, color: Colors.white),
                 ),
-                SizedBox(width: 8),
+
+                SizedBox(height: 8,),
+
                 Text(
                   'Total Água',
-                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
+                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 14),
                 ),
 
-                SizedBox(height: 8),
+                SizedBox(height: 5),
 
                 Text(
                   formatarReais(double.parse(totalAgua)),
@@ -192,27 +194,30 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color(0xFF53CBF3),
+              color: Color.fromARGB(255, 200, 200, 200),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Color(0xFF5478FF),
+                  backgroundColor: Color(0xFFEAD926),
                   child: Icon(Icons.energy_savings_leaf, color: Colors.white),
                 ),
+
+                SizedBox(height: 8,),
+
                 Text(
                   'Total Energia',
-                  style: TextStyle(color: Color.fromARGB(255, 50, 86, 214), fontSize: 12),
+                  style: TextStyle(color: Color.fromARGB(255, 172, 147, 9), fontSize: 14),
                 ),
 
-                SizedBox(height: 8),
+                SizedBox(height: 5),
 
                 Text(
                   formatarReais(double.parse(totalEnergia)),
                   style: TextStyle(
-                    color: Color.fromARGB(255, 50, 86, 214),
+                    color: Color.fromARGB(255, 172, 147, 9),
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -232,10 +237,9 @@ class _DashboardState extends State<Dashboard> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => ImoveisPage(),));
         },
-        label: Text('Imóveis'),
+        label: Text('Imóveis', style: TextStyle(color: Colors.white),),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFFFDE42),
-          foregroundColor: Color(0xFF111FA2),
+          backgroundColor: Color(0xFF2E81FD),
           padding: EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadiusGeometry.circular(12),
@@ -250,28 +254,28 @@ class _DashboardState extends State<Dashboard> {
       return Center(child: Text('Nenhuma leitura registrada'));
     }
     return Column(
-    children: _historico.map<Widget>((leitura) {  // ← adiciona <Widget>
-      final isAgua = leitura['tipo'] == 'agua';
+      children: _historico.map<Widget>((leitura) {// ← adiciona <Widget>
+        final isAgua = leitura['tipo'] == 'agua';
 
-      return ListTile(
-        leading: CircleAvatar(
-          backgroundColor: isAgua
-            ? Colors.blue.shade50
-            : Colors.amber.shade50,
-          child: Icon(
-            isAgua ? Icons.water_drop_outlined : Icons.bolt,
-            color: isAgua ? Color(0xFF111FA2) : Colors.amber,
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundColor: isAgua
+              ? Colors.blue.shade50
+              : Colors.amber.shade50,
+            child: Icon(
+              isAgua ? Icons.water_drop_outlined : Icons.bolt,
+              color: isAgua ? Color(0xFF111FA2) : Colors.amber,
+            ),
           ),
-        ),
-        title: Text('${isAgua ? 'Água' : 'Energia'} - ${leitura['imovel']}'),
-        subtitle: Text(leitura['data_leitura']),
-        trailing: Text(
-          '${leitura['leitura']} ${leitura['unidade']}',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      );
-    }).toList(), // ← tem que ter o .toList() no final
-  );
+          title: Text('${isAgua ? 'Água' : 'Energia'} - ${leitura['imovel']}'),
+          subtitle: Text(leitura['data_leitura']),
+          trailing: Text(
+            '${leitura['leitura']} ${leitura['unidade']}',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        );
+      }).toList(), // ← tem que ter o .toList() no final
+    );
   }
 }
 
