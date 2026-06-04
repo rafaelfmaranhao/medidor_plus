@@ -22,4 +22,19 @@ class RelatorioService {
       return [{'success': false, 'message': 'Erro na consulta'}];
     }
   }
+
+  Future<List<dynamic>> consumoPeriodo() async {
+    final authHeaders = await _authService.authHeaders();
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/relatorios/consumoPeriodo'),
+        headers: authHeaders
+      );
+
+      return jsonDecode(response.body);
+    } catch (e) {
+      return [{'success': false, 'message': 'Erro na consulta', 'erro': 'Erro: $e'}];
+    }
+  }
 }
