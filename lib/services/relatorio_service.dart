@@ -23,7 +23,7 @@ class RelatorioService {
     }
   }
 
-  Future<List<dynamic>> consumoPeriodo({
+  Future<Map<String, dynamic>> consumoPeriodo({
     required String dataInicial,
     required String dataFinal,
     String? imovelId,
@@ -44,7 +44,7 @@ class RelatorioService {
 
       return jsonDecode(response.body);
     } catch (e) {
-      return [{'success': false, 'message': 'Erro na consulta', 'erro': 'Erro: $e'}];
+      return {'success': false, 'message': 'Erro na consulta', 'erro': 'Erro: $e'};
     }
   }
 }

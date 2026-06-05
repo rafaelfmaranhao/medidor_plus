@@ -209,7 +209,7 @@ class _DashboardState extends State<Dashboard> {
 
                 Text(
                   'Total Energia',
-                  style: TextStyle(color: Color.fromARGB(255, 172, 147, 9), fontSize: 14),
+                  style: TextStyle(color: Colors.yellow, fontSize: 14),
                 ),
 
                 SizedBox(height: 5),
@@ -217,7 +217,7 @@ class _DashboardState extends State<Dashboard> {
                 Text(
                   formatarReais(double.parse(totalEnergia)),
                   style: TextStyle(
-                    color: Color.fromARGB(255, 172, 147, 9),
+                    color: Colors.yellow,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),

@@ -13,7 +13,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
   final _service = RelatorioService();
 
   List<dynamic> _opcoes = [];
-  List<dynamic> _resultado = [];
+  Map<String, dynamic> _resultado = {};
   bool _carregando = false;
   bool _carregandoRelaorio = false;
 
@@ -54,6 +54,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
       imovelId:    _imovelSelecionado?['id']?.toString(),
       medidorId:   _medidorSelecionado?['id']?.toString(),
     );
+
     setState(() {
       _resultado = resultado;
       _carregandoRelaorio = false;
@@ -79,6 +80,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -105,7 +107,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
             SizedBox(height: 8),
             DropdownButtonFormField(items: [
               DropdownMenuItem(child: Text('Todos os imóveis')),
-              ..._opcoes.map((imovel) => DropdownMenuItem(child: Text(imovel['nome']), value: imovel,))
+              ..._opcoes.map((imovel) => DropdownMenuItem(value: imovel, child: Text(imovel['nome']),))
             ], onChanged: (value){
               setState(() {
                 _imovelSelecionado = value;
@@ -180,7 +182,6 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
                       ],
                     ),
                   ),
-                  
                 ))
               ],
             ),
@@ -206,31 +207,67 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
               SizedBox(height: 12,),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
                 decoration: BoxDecoration(
                   color: Color(0xFF0D1A62),
                   borderRadius: BorderRadius.circular(12)
                 ),
                 child: Column(
                   children: [
-                    Icon(Icons.bar_chart, color: Colors.white, size: 40,),
-                    SizedBox(height: 8,),
-                    Text(
-                      'Total de Consumo',
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.bar_chart, color: Colors.white, size: 40,),
+                        Text(
+                          'Total de Consumo por Período',
+                          style: TextStyle(color: Colors.white70, fontSize: 16),
+                        ),
+                        SizedBox(width: 40,)
+                      ]
                     ),
-                    SizedBox(height: 4,),
-                    Text(
-                      '${_resultado[0]['total_leitura'] ?? 0}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold
-                      ),
+
+                    SizedBox(height: 10,),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'Consumo Água',
+                              style: TextStyle(color: Colors.white70, fontSize: 14),
+                            ),
+                            Text(
+                              '${_resultado['consumo_agua'] ?? 0} m³',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Consumo Energia',
+                              style: TextStyle(color: Colors.white70, fontSize: 14),
+                            ),
+                            Text(
+                              '${_resultado['consumo_energia'] ?? 0} kWh',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ]
+                        )
+                      ],
                     ),
                     Text(
-                      _medidorSelecionado != null ? _medidorSelecionado['unidade']: 'unidade', style: TextStyle(color: Colors.white70),
-                    )
+                      _medidorSelecionado != null ? _medidorSelecionado['unidade']: '', style: TextStyle(color: Colors.white70),
+                    ),
                   ],
                 ),
               )
