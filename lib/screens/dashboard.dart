@@ -4,6 +4,7 @@ import 'auth/login.dart';
 import '../services/dashboard_service.dart';
 import '../services/auth_service.dart';
 import 'package:intl/intl.dart';
+import '../screens/relatorios.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -75,10 +76,13 @@ class _DashboardState extends State<Dashboard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                
                   criarCards(),
                   SizedBox(height: 24),
                   btnAdd(context),
-                  SizedBox(height: 60),
+                  SizedBox(height: 12),      // ← espaçamento entre os botões
+                  btnRelatorios(context),    // ← adiciona essa linha
+                  SizedBox(height: 24),
                   Text(
                     'Histórico',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -155,14 +159,14 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 200, 200, 200),
+              color: Color.fromARGB(255, 207, 211, 234),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Color(0xFF5478FF),
+                  backgroundColor: Color.fromARGB(255, 50, 86, 214),
                   child: Icon(Icons.water_sharp, color: Colors.white),
                 ),
 
@@ -194,14 +198,14 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 200, 200, 200),
+              color: Color.fromARGB(255, 250, 228, 175),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Color(0xFFEAD926),
+                  backgroundColor: const Color.fromARGB(255, 255, 160, 59),
                   child: Icon(Icons.energy_savings_leaf, color: Colors.white),
                 ),
 
@@ -209,7 +213,7 @@ class _DashboardState extends State<Dashboard> {
 
                 Text(
                   'Total Energia',
-                  style: TextStyle(color: Colors.yellow, fontSize: 14),
+                  style: TextStyle(color: const Color.fromARGB(255, 255, 160, 59), fontSize: 14),
                 ),
 
                 SizedBox(height: 5),
@@ -217,7 +221,7 @@ class _DashboardState extends State<Dashboard> {
                 Text(
                   formatarReais(double.parse(totalEnergia)),
                   style: TextStyle(
-                    color: Colors.yellow,
+                    color: const Color.fromARGB(255, 255, 160, 59),
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -239,7 +243,26 @@ class _DashboardState extends State<Dashboard> {
         },
         label: Text('Imóveis', style: TextStyle(color: Colors.white),),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF2E81FD),
+          backgroundColor: Color(0xFF0D1A63),
+          padding: EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
+
+   Widget btnRelatorios(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RelatoriosPage(),));
+        },
+        label: Text('Relatórios', style: TextStyle(color: Colors.white),),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF0D1A63),
           padding: EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadiusGeometry.circular(12),
