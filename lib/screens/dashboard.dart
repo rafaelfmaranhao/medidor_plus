@@ -16,7 +16,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   final _dashService = DashboardService();
   final _authService = AuthService();
-  
+
   Map<String, dynamic> dados = {};
   List<dynamic> _historico = [];
   bool _carregando = true;
@@ -76,7 +76,7 @@ class _DashboardState extends State<Dashboard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                
+
                   criarCards(),
                   SizedBox(height: 24),
                   btnAdd(context),
@@ -262,7 +262,7 @@ class _DashboardState extends State<Dashboard> {
         },
         label: Text('Relatórios', style: TextStyle(color: Colors.white),),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF0D1A63),
+          backgroundColor: Color.fromARGB(255, 255, 160, 59),
           padding: EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadiusGeometry.circular(12),
@@ -277,7 +277,7 @@ class _DashboardState extends State<Dashboard> {
       return Center(child: Text('Nenhuma leitura registrada'));
     }
     return Column(
-      children: _historico.map<Widget>((leitura) {// ← adiciona <Widget>
+      children: _historico.map<Widget>((leitura) {
         final isAgua = leitura['tipo'] == 'agua';
 
         return ListTile(

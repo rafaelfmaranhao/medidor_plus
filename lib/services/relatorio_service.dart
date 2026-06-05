@@ -26,15 +26,38 @@ class RelatorioService {
   Future<Map<String, dynamic>> consumoPeriodo({
     required String dataInicial,
     required String dataFinal,
-    String? imovelId,
-    String? medidorId
-
-   }) async {
+    int? imovelId,
+    int? medidorId
+  }) async {
     final authHeaders = await _authService.authHeaders();
 
     String url = "$baseUrl/relatorios/consumoPeriodo?data_inicial=$dataInicial&data_final=$dataFinal";
     if (imovelId != null) url += '&imovel=$imovelId';
     if  (medidorId != null) url += '&medidor=$medidorId';
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: authHeaders
+      );
+
+      return jsonDecode(response.body);
+    } catch (e) {
+      return {'success': false, 'message': 'Erro na consulta', 'erro': 'Erro: $e'};
+    }
+  }
+
+  Future<Map<String, dynamic>> totalPeriodo({
+    required String dataInicial,
+    required String dataFinal,
+    int? imovelId,
+    int? medidorId
+  }) async {
+    final authHeaders = await _authService.authHeaders();
+
+    String url = "$baseUrl/relatorios/totalPeriodo?data_inicial=$dataInicial&data_final=$dataFinal";
+    if (imovelId != null) url += '&imovel=$imovelId';
+    if (medidorId != null) url += '&medidor=$medidorId';
 
     try {
       final response = await http.get(

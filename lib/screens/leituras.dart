@@ -210,10 +210,13 @@ class _LeiturasPageState extends State<LeiturasPage> {
           ],
         ),
         actions: [
-          TextButton(onPressed: () {
-            Navigator.pop(context);
-            getLeituras();
-          }, child: Text('Cancelar')),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              getLeituras();
+            },
+            child: Text('Cancelar')
+          ),
           ElevatedButton(
             onPressed: () async {
               final resposta = await _service.atualizar(
