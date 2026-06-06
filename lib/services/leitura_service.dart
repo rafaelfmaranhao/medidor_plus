@@ -12,7 +12,7 @@ class LeituraService {
     try {
       final authHeaders = await _authService.authHeaders();
       final response = await http.get(
-        Uri.parse('$baseUrl/leituras?id=$medidorId?q=$pesquisa'),
+        Uri.parse('$baseUrl/leituras?id=$medidorId&q=$pesquisa'),
         headers: authHeaders
       );
 
@@ -23,10 +23,10 @@ class LeituraService {
   }
 
   Future<Map<String,dynamic>> cadastrar(
-      String leitura,
-      String dataLeitura,
-      double valorTotal,
-      int medidorId,
+    String leitura,
+    String dataLeitura,
+    double valorTotal,
+    int medidorId,
   ) async {
     try {
       final authHeaders = await _authService.authHeaders();
@@ -41,16 +41,16 @@ class LeituraService {
           'medidor_id': medidorId,
         }));
       return jsonDecode(response.body);
-    }catch(e){
-      return {'success': false, 'message': 'Erro no endpoint'};
+    } catch(e) {
+      return {'success': false, 'message': 'Dados inválidos'};
     }
   }
-//put
+
   Future<Map<String, dynamic>> atualizar(
-      int id,
-      String leitura,
-      String dataLeitura,
-      double valorTotal,
+    int id,
+    String leitura,
+    String dataLeitura,
+    double valorTotal,
   ) async {
     try {
       final authHeaders = await _authService.authHeaders();

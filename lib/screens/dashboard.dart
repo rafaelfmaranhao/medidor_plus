@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
                   btnRelatorios(context),    // ← adiciona essa linha
                   SizedBox(height: 24),
                   Text(
-                    'Histórico',
+                    'Histórico de Leituras',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 24),
@@ -278,7 +278,7 @@ class _DashboardState extends State<Dashboard> {
     }
     return Column(
       children: _historico.map<Widget>((leitura) {
-        final isAgua = leitura['tipo'] == 'agua';
+        final isAgua = leitura['tipo'] == 'Água';
 
         return ListTile(
           leading: CircleAvatar(

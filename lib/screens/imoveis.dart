@@ -27,15 +27,23 @@ class _ImoveisPageState extends State<ImoveisPage> {
 
   Future<void> carregarImoveis([String pesquisa = '']) async {
     setState(() => carregando = true );
-    final resultadopesquisa = await imovelservice.getImoveis(pesquisa);
-    imoveis = resultadopesquisa;
+    final resultado = await imovelservice.getImoveis(pesquisa);
+    imoveis = resultado;
+
+    if (!resultado[0]['success']) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Servidor offline')),
+      );
+      return;
+    }
 
     setState(() {
       carregando = false;
     });
   }
 
-//alert para cadastrar
   void dialogCadastrar(){
     final nomeController = TextEditingController();
     showDialog(context: context, builder: (context)=> 
@@ -52,6 +60,9 @@ class _ImoveisPageState extends State<ImoveisPage> {
         TextButton(onPressed: ()=> Navigator.pop(context), child: Text('Cancelar')),
         ElevatedButton(onPressed: ()async{
           final resposta = await imovelservice.cadastrar(nomeController.text);
+
+          if (!context.mounted) return;
+
           Navigator.pop(context);
           carregarImoveis();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +72,6 @@ class _ImoveisPageState extends State<ImoveisPage> {
       ],
     ));
   }
-//alert para editar
 
   void dialogEditar(int id, String nomeAtual){
 
@@ -81,6 +91,9 @@ class _ImoveisPageState extends State<ImoveisPage> {
         TextButton(onPressed: ()=> Navigator.pop(context), child: Text('Cancelar')),
         ElevatedButton(onPressed: () async{
           final resposta = await imovelservice.atualizar(id, nomeController.text);
+
+          if (!context.mounted) return;
+
           Navigator.pop(context);
           carregarImoveis();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -92,8 +105,6 @@ class _ImoveisPageState extends State<ImoveisPage> {
     );
   
   }
-
-//delete
 
   void dialogDeletar(int id, String nome){
     showDialog(
@@ -108,10 +119,13 @@ class _ImoveisPageState extends State<ImoveisPage> {
           ElevatedButton(
             onPressed: ()async{
               final resposta = await imovelservice.deletar(id);
+
+              if (!context.mounted) return;
+
               Navigator.pop(context);
               carregarImoveis();
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(resposta['message']))
+                SnackBar(content: Text(resposta['message']))
               );
             }, 
             child: Text('Remover', style: TextStyle(color: Colors.white),))

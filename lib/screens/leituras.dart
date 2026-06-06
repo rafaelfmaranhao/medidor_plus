@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:medidor_plus/services/leitura_service.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class LeiturasPage extends StatefulWidget {
-
   final int medidorId;
   final String medidorNome;
 
   const LeiturasPage({
     required this.medidorId,
     required this.medidorNome,
-    super.key
+    super.key,
   });
 
   @override
@@ -19,7 +19,6 @@ class LeiturasPage extends StatefulWidget {
 }
 
 class _LeiturasPageState extends State<LeiturasPage> {
-
   final _service = LeituraService();
   final pesquisaCotroller = TextEditingController();
 
@@ -27,42 +26,47 @@ class _LeiturasPageState extends State<LeiturasPage> {
   final format = DateFormat('dd/MM/yyyy HH:mm');
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    getLeituras();
+    _getLeituras();
   }
 
   String formatarReais(double valor) {
-    return NumberFormat.currency(
-      locale: 'pt_BR',
-      symbol: 'R\$',
-    ).format(valor);
+    return NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(valor);
   }
 
   List<dynamic> leituras = [];
 
-  Future<void> getLeituras({String pesquisa = ''}) async {
-    setState(()=> carregando  = true );
+  Future<void> _getLeituras({String pesquisa = ''}) async {
+    setState(() => carregando = true);
     final resultado = await _service.getLeituras(
-        widget.medidorId,
-        pesquisa: pesquisa
+      widget.medidorId,
+      pesquisa: pesquisa,
     );
     leituras = resultado;
 
-    setState(() {
-      carregando = false;
-    });
+    if (!resultado[0]['success']) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Servidor offline')),
+      );
+
+      return;
+    }
+
+    setState(() => carregando = false);
   }
 
-  void dialogCadastrar(){
+  void dialogCadastrar() {
     final leituraController = TextEditingController();
     final dataLeituraCtrl = TextEditingController();
-    final valorTotal = TextEditingController();
+    final valorTotalCtrl = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context)=> StatefulBuilder(
-        builder: (context, setStateDialog)=> AlertDialog(
+      builder: (context) => StatefulBuilder(
+        builder: (context, setStateDialog) => AlertDialog(
           title: Text('Registrar Leitura'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -71,10 +75,10 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 controller: leituraController,
                 decoration: InputDecoration(
                   labelText: 'Leitura',
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 12,),
+              SizedBox(height: 12),
               DateTimeField(
                 format: format,
                 controller: dataLeituraCtrl,
@@ -90,8 +94,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                   );
-
-                  if (data == null) return currentValue;
+                  if (!context.mounted || data == null) return currentValue;
 
                   final hora = await showTimePicker(
                     context: context,
@@ -109,46 +112,59 @@ class _LeiturasPageState extends State<LeiturasPage> {
                   );
                 },
               ),
-              SizedBox(height: 12,),
+              SizedBox(height: 12),
               TextField(
-                controller: valorTotal,
+                controller: valorTotalCtrl,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  CurrencyTextInputFormatter.currency(
+                    locale: 'pt_BR',
+                    decimalDigits: 2,
+                    symbol: '',
+                  ),
+                ],
                 decoration: InputDecoration(
-                    labelText: 'Valor Total' ,
-                    border: OutlineInputBorder()
+                  labelText: 'Valor Total',
+                  border: OutlineInputBorder(),
                 ),
               ),
             ],
           ),
           actions: [
-            TextButton(onPressed: ()=> Navigator.pop(context), child: Text('Cancelar')),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancelar'),
+            ),
             ElevatedButton(
               onPressed: () async {
+                String valorTotal = valorTotalCtrl.text.replaceAll(',', '.');
+
                 final resposta = await _service.cadastrar(
                   leituraController.text,
                   dataLeituraCtrl.text,
-                  double.parse(valorTotal.text),
-                  widget.medidorId
+                  double.parse(valorTotal),
+                  widget.medidorId,
                 );
-                if(!mounted) return;
+                if (!context.mounted) return;
 
                 Navigator.pop(context);
-                getLeituras();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(resposta['message']))
-                );
+                _getLeituras();
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(resposta['message'])));
               },
-              child: Text('Salvar')
-            )
+              child: Text('Salvar'),
+            ),
           ],
-        )
-      )
+        ),
+      ),
     );
   }
-  
-  void _dialogEditar(dynamic leitura){
+
+  void _dialogEditar(dynamic leitura) {
     final leituraController = TextEditingController();
     final dataLeituraCtrl = TextEditingController();
-    final valorTotal = TextEditingController();
+    final valorTotalCtrl = TextEditingController();
 
     showDialog(
       context: context,
@@ -160,11 +176,11 @@ class _LeiturasPageState extends State<LeiturasPage> {
             TextField(
               controller: leituraController,
               decoration: InputDecoration(
-                  labelText: 'Leitura',
-                  border: OutlineInputBorder()
+                labelText: 'Leitura',
+                border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 12,),
+            SizedBox(height: 12),
             DateTimeField(
               format: format,
               controller: dataLeituraCtrl,
@@ -181,7 +197,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
                   lastDate: DateTime(2100),
                 );
 
-                if (data == null) return currentValue;
+                if (!context.mounted || data == null) return currentValue;
 
                 final hora = await showTimePicker(
                   context: context,
@@ -199,12 +215,12 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 );
               },
             ),
-            SizedBox(height: 12,),
+            SizedBox(height: 12),
             TextField(
-              controller: valorTotal,
+              controller: valorTotalCtrl,
               decoration: InputDecoration(
-                  labelText: 'Valor Total' ,
-                  border: OutlineInputBorder()
+                labelText: 'Valor Total',
+                border: OutlineInputBorder(),
               ),
             ),
           ],
@@ -213,29 +229,32 @@ class _LeiturasPageState extends State<LeiturasPage> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              getLeituras();
+              _getLeituras();
             },
-            child: Text('Cancelar')
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () async {
+              String valorTotal = valorTotalCtrl.text.replaceAll(',', '.');
+
               final resposta = await _service.atualizar(
                 leitura['id'],
                 leituraController.text,
                 dataLeituraCtrl.text,
-                double.parse(valorTotal.text)
+                double.parse(valorTotal),
               );
-              if(!mounted) return;
+              if (!context.mounted) return;
 
               Navigator.pop(context);
-              getLeituras();
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(resposta['message']))
-              );
+              _getLeituras();
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(resposta['message'])));
             },
-            child: Text('Atualizar'))
+            child: Text('Atualizar'),
+          ),
         ],
-      )
+      ),
     );
   }
 
@@ -244,7 +263,9 @@ class _LeiturasPageState extends State<LeiturasPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Remover Leitura'),
-        content: Text('Deseja remover essa leitura? (${leitura['leitura']}, ${leitura['data_leitura']})'),
+        content: Text(
+          'Deseja remover essa leitura? (${leitura['leitura']}, ${leitura['data_leitura']})',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -253,15 +274,14 @@ class _LeiturasPageState extends State<LeiturasPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
-              final resposta = await _service.deletar(
-                  leitura['id']
-              );
-              if (!mounted) return;
+              final resposta = await _service.deletar(leitura['id']);
+              if (!context.mounted) return;
+
               Navigator.pop(context);
-              getLeituras();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(resposta['message'])),
-              );
+              _getLeituras();
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(resposta['message'])));
             },
             child: Text('Remover', style: TextStyle(color: Colors.white)),
           ),
@@ -275,13 +295,13 @@ class _LeiturasPageState extends State<LeiturasPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Leituras - ${widget.medidorNome}'),
-        backgroundColor: Color(0xFFFF0D1A63),
+        backgroundColor: Color(0xFF0D1A63),
         foregroundColor: Colors.white,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: dialogCadastrar,
         backgroundColor: Colors.blue,
-        child: Icon(Icons.add, color: Colors.white,),
+        child: Icon(Icons.add, color: Colors.white),
       ),
       body: Column(
         children: [
@@ -293,46 +313,58 @@ class _LeiturasPageState extends State<LeiturasPage> {
                 labelText: 'Pesquisar Leituras',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12)
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                suffixIcon: IconButton(onPressed: (){
-                  pesquisaCotroller.clear();
-                  getLeituras();
-                }, icon: Icon(Icons.clear))
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    pesquisaCotroller.clear();
+                    _getLeituras();
+                  },
+                  icon: Icon(Icons.clear),
+                ),
               ),
-              onChanged: (value) => getLeituras(pesquisa: value),
+              onSubmitted: (value) => _getLeituras(pesquisa: value),
             ),
           ),
           Expanded(
-            child: carregando ? Center(child: CircularProgressIndicator()) :
-            leituras.isEmpty ? Center(child: Text('Nenhuma leitura registrada')) :
-            ListView.separated(
-              itemCount: leituras.length,
-              separatorBuilder: (context, index) => Divider(),
-              itemBuilder: (context, index){
-                final leitura = leituras[index];
+            child: carregando
+                ? Center(child: CircularProgressIndicator())
+                : leituras.isEmpty
+                ? Center(child: Text('Nenhuma leitura registrada'))
+                : ListView.separated(
+                    itemCount: leituras.length,
+                    separatorBuilder: (context, index) => Divider(),
+                    itemBuilder: (context, index) {
+                      final leitura = leituras[index];
 
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.blue.shade50,
-                    child: Icon(
-                      Icons.receipt,
-                      color: Colors.blue,
-                    ),
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.blue.shade50,
+                          child: Icon(Icons.receipt, color: Colors.blue),
+                        ),
+                        title: Text('Leitura: ${leitura['leitura']}'),
+                        subtitle: Text(
+                          '${formatarReais(double.parse(leitura['valor_total']))} - ${leitura['data_leitura']}',
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () => _dialogEditar(leitura),
+                              icon: Icon(Icons.edit),
+                              color: Colors.orange,
+                            ),
+                            IconButton(
+                              onPressed: () => _dialogDeletar(leitura),
+                              icon: Icon(Icons.delete),
+                              color: Colors.red,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  title: Text('Leitura: ${leitura['leitura']}'),
-                  subtitle: Text('${formatarReais(double.parse(leitura['valor_total']))} - ${leitura['data_leitura']}'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(onPressed: ()=> _dialogEditar(leitura), icon: Icon(Icons.edit), color: Colors.orange,),
-                      IconButton(onPressed: ()=> _dialogDeletar(leitura), icon: Icon(Icons.delete), color: Colors.red)
-                    ],
-                  ),
-                );
-              },
-            )
-          )
+          ),
         ],
       ),
     );

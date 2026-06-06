@@ -21,7 +21,7 @@ class DashboardService {
     }
   }
 
-    Future<List<dynamic>> getHistorico() async {
+  Future<List<dynamic>> getHistorico() async {
     try {
       final authHeaders = await _authService.authHeaders();
       final response = await http.get(

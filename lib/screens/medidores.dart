@@ -37,8 +37,18 @@ class _MedidorPageState extends State<MedidorPage> {
       widget.imovelId,
       pesquisa: pesquisa
     );
+    medidores = resultado;
+
+    if (!resultado[0]['success']) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Servidor offline')),
+      );
+      return;
+    }
+
     setState(() {
-      medidores = resultado;
       carregando = false;
     });
   }
@@ -74,7 +84,7 @@ class _MedidorPageState extends State<MedidorPage> {
               ),
               SizedBox(height: 12,),
               DropdownButtonFormField<String>(
-                value: tipoSelecionado,
+                initialValue: tipoSelecionado,
                 items: [
                   DropdownMenuItem(value: 'Água', child: Text('Água')),
                   DropdownMenuItem(value: 'Energia', child: Text('Energia'))
@@ -94,7 +104,7 @@ class _MedidorPageState extends State<MedidorPage> {
                   tipoSelecionado, 
                   widget.imovelId
                 );
-                if(!mounted) return;
+                if(!context.mounted) return;
 
                 Navigator.pop(context);
                 carregarMedidores();
@@ -143,7 +153,7 @@ class _MedidorPageState extends State<MedidorPage> {
               unidadeController.text,
               identificador.text
             );
-            if(!mounted) return;
+            if(!context.mounted) return;
 
             Navigator.pop(context);
             carregarMedidores();
@@ -173,7 +183,7 @@ class _MedidorPageState extends State<MedidorPage> {
             final resposta = await _service.deletar(
               medidor['id']
             );
-            if (!mounted) return;
+            if (!context.mounted) return;
 
             Navigator.pop(context);
             carregarMedidores();
@@ -193,14 +203,14 @@ class _MedidorPageState extends State<MedidorPage> {
     return Scaffold(
        appBar: AppBar(
         title: Text('Medidores - ${widget.imovelNome}'),
-        backgroundColor: Color(0xFFFF0D1A63),
+        backgroundColor: Color(0xFF0D1A63),
         foregroundColor: Colors.white,
        ),
        floatingActionButton: FloatingActionButton(
         onPressed: dialogCadastrar,
         backgroundColor: Colors.blue,
         child: Icon(Icons.add, color: Colors.white,),
-        ),
+       ),
         body: Column(
           children: [
             Padding(
@@ -218,7 +228,7 @@ class _MedidorPageState extends State<MedidorPage> {
                     carregarMedidores();
                   }, icon: Icon(Icons.clear))
                 ),
-                onChanged: (value) => carregarMedidores(pesquisa:  value),
+                onSubmitted: (value) => carregarMedidores(pesquisa: value),
               ),
               ),
             Expanded(
@@ -262,14 +272,22 @@ class _MedidorPageState extends State<MedidorPage> {
                       );
                     },
                     leading: CircleAvatar(
-                      backgroundColor: isAgua ? Colors.blue.shade50 : Colors.amber.shade50,
+                      backgroundColor: isAgua
+                          ? Colors.blue.shade50
+                          : Colors.amber.shade50,
                       child: Icon(
-                        isAgua ? Icons.water_drop : Icons.bolt,
-                        color: isAgua ? Colors.blue : Colors.amber,
+                        isAgua ? Icons.water_drop_outlined : Icons.bolt,
+                        color: isAgua ? Color(0xFF111FA2) : Colors.amber,
                       ),
                     ),
                     title: Text('${medidor['tipo']} · ${medidor['unidade']}'),
                     subtitle: Text('Ident.: ${medidor['identificador']}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.chevron_right, color: Colors.blue,)
+                      ],
+                    ),
                   );
                 },
               )
