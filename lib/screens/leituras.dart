@@ -31,7 +31,7 @@ class _LeiturasPageState extends State<LeiturasPage> {
     _getLeituras();
   }
 
-  String formatarReais(double valor) {
+  String formatarReais(dynamic valor) {
     return NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(valor);
   }
 
@@ -44,16 +44,6 @@ class _LeiturasPageState extends State<LeiturasPage> {
       pesquisa: pesquisa,
     );
     leituras = resultado;
-
-    if (!resultado[0]['success']) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Servidor offline')),
-      );
-
-      return;
-    }
 
     setState(() => carregando = false);
   }
@@ -137,7 +127,9 @@ class _LeiturasPageState extends State<LeiturasPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                String valorTotal = valorTotalCtrl.text.replaceAll(',', '.');
+                String valorTotal = valorTotalCtrl.text
+                    .replaceAll('.', '')
+                    .replaceAll(',', '.');
 
                 final resposta = await _service.cadastrar(
                   leituraController.text,
@@ -162,9 +154,10 @@ class _LeiturasPageState extends State<LeiturasPage> {
   }
 
   void _dialogEditar(dynamic leitura) {
-    final leituraController = TextEditingController();
-    final dataLeituraCtrl = TextEditingController();
-    final valorTotalCtrl = TextEditingController();
+    final leituraController = TextEditingController(text: leitura['leitura'].toString());
+    final dataLeituraCtrl = TextEditingController(text: leitura['data_leitura']);
+    final valorTotalTexto = leitura['valor_total'].toString().replaceAll('.', ',');
+    final valorTotalCtrl = TextEditingController(text: valorTotalTexto);
 
     showDialog(
       context: context,
@@ -218,6 +211,13 @@ class _LeiturasPageState extends State<LeiturasPage> {
             SizedBox(height: 12),
             TextField(
               controller: valorTotalCtrl,
+              inputFormatters: [
+                CurrencyTextInputFormatter.currency(
+                  locale: 'pt_BR',
+                  decimalDigits: 2,
+                  symbol: '',
+                ),
+              ],
               decoration: InputDecoration(
                 labelText: 'Valor Total',
                 border: OutlineInputBorder(),
@@ -235,7 +235,9 @@ class _LeiturasPageState extends State<LeiturasPage> {
           ),
           ElevatedButton(
             onPressed: () async {
-              String valorTotal = valorTotalCtrl.text.replaceAll(',', '.');
+              String valorTotal = valorTotalCtrl.text
+                  .replaceAll('.', '')
+                  .replaceAll(',', '.');
 
               final resposta = await _service.atualizar(
                 leitura['id'],

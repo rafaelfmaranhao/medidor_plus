@@ -19,7 +19,6 @@ class _ImoveisPageState extends State<ImoveisPage> {
   bool carregando = false;
 
   @override
-
   void initState(){
     super.initState();
     carregarImoveis();
@@ -29,15 +28,6 @@ class _ImoveisPageState extends State<ImoveisPage> {
     setState(() => carregando = true );
     final resultado = await imovelservice.getImoveis(pesquisa);
     imoveis = resultado;
-
-    if (!resultado[0]['success']) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Servidor offline')),
-      );
-      return;
-    }
 
     setState(() {
       carregando = false;
@@ -128,7 +118,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
                 SnackBar(content: Text(resposta['message']))
               );
             }, 
-            child: Text('Remover', style: TextStyle(color: Colors.white),))
+            child: Text('Remover',))
         ],
       )
     );
@@ -209,7 +199,7 @@ class _ImoveisPageState extends State<ImoveisPage> {
                             title: Text('Deletar'),
                             onTap: (){
                               Navigator.pop(context);
-                              dialogEditar(imovel['id'], imovel['nome']);
+                              dialogDeletar(imovel['id'], imovel['nome']);
                             },
                           ),
                         ],

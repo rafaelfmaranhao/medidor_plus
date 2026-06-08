@@ -41,15 +41,6 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
     setState(() => _carregando = true);
     final opcoes = await _service.carregarOpcoes();
 
-    if (!opcoes[0]['success']) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Servidor offline')),
-      );
-      return;
-    }
-
     setState(() {
       _opcoes = opcoes;
       _carregando = false;

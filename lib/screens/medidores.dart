@@ -39,15 +39,6 @@ class _MedidorPageState extends State<MedidorPage> {
     );
     medidores = resultado;
 
-    if (!resultado[0]['success']) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Servidor offline')),
-      );
-      return;
-    }
-
     setState(() {
       carregando = false;
     });
@@ -116,6 +107,7 @@ class _MedidorPageState extends State<MedidorPage> {
           ],
         )));
   }
+
   void dialogEditar(dynamic medidor){
     final unidadeController = TextEditingController(text: medidor['unidade']);
     final identificador = TextEditingController(text: medidor['identificador']);
